@@ -1,0 +1,9 @@
+##ignore files##
+/target/
+.classpath
+.project
+*.class
+.settings
+*.prefs
+*.component
+*.list
