@@ -6,11 +6,12 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import div.shuchun.pojo.User;
+import div.shuchun.service.parts.PartsService;
 import div.shuchun.service.user.UserService;
 
 public class MyTest {
 
-	@Test
+//	@Test
 	public void testGetAllUser() {		
 		ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 		UserService userService = (UserService) context.getBean("userServiceImpl");
@@ -20,4 +21,27 @@ public class MyTest {
 		
 		((ConfigurableApplicationContext)context).close();  // 用來關閉 context
 	}
+	
+//	@Test
+	public void testPartCount() {
+		ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+		PartsService partsService = (PartsService) context.getBean("partsServiceImpl");
+		
+		System.out.println(partsService.getPartsCountById(3));
+		
+		((ConfigurableApplicationContext)context).close();  // 用來關閉 context
+	}
+	
+	@Test
+	public void testGetPartList() {
+		ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+		PartsService partsService = (PartsService) context.getBean("partsServiceImpl");
+		
+		System.out.println(partsService.getPartsListByCode("S000GEAR002"));
+		
+		((ConfigurableApplicationContext)context).close();  // 用來關閉 context
+	}
 }
+
+
+

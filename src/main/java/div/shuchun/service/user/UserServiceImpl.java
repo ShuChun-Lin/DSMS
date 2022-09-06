@@ -12,12 +12,26 @@ public class UserServiceImpl implements UserService {
 	public void setUserMapper(UserMapper userMapper) {
 		this.userMapper = userMapper;
 	}
+	
+	
+	@Override
+	public User getLoginUser(String userCode, String userPassword) {
+		User user = userMapper.getLoginUser(userCode);
+		
+		if (user != null) {
+			// judge password whether correct
+			if (user.getUserPassword().equals(userPassword)) {
+				return user;
+			}
+		}
+		
+		return null;
+	}
 
 	@Override
 	public List<User> getAllUserList() {
 		
 		return userMapper.getAllUserList();
 	}
-	
-	
+
 }

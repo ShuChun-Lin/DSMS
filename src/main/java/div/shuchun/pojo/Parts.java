@@ -13,12 +13,17 @@ public class Parts {
 	private int modifyBy;
 	private Date modifyDate;
 	
+	private String partsDeptName;
+	private int partsCount;
+	
+	
 	public Parts() {
 		super();
 	}
+	
 
 	public Parts(int id, String partsCode, String partsName, int partsDepartment, int createdBy, Date creationDate,
-			int modifyBy, Date modifyDate) {
+			int modifyBy, Date modifyDate, String partsDeptName, int partsCount) {
 		super();
 		this.id = id;
 		this.partsCode = partsCode;
@@ -28,13 +33,33 @@ public class Parts {
 		this.creationDate = creationDate;
 		this.modifyBy = modifyBy;
 		this.modifyDate = modifyDate;
+		this.partsDeptName = partsDeptName;
+		this.partsCount = partsCount;
 	}
 
 	@Override
 	public String toString() {
 		return "Parts [id=" + id + ", partsCode=" + partsCode + ", partsName=" + partsName + ", partsDepartment="
 				+ partsDepartment + ", createdBy=" + createdBy + ", creationDate=" + creationDate + ", modifyBy="
-				+ modifyBy + ", modifyDate=" + modifyDate + "]";
+				+ modifyBy + ", modifyDate=" + modifyDate + ", partsDeptName=" + partsDeptName + ", partsCount="
+				+ partsCount + "]";
+	}
+
+
+	public String getPartsDeptName() {
+		return partsDeptName;
+	}
+
+	public void setPartsDeptName(String partsDeptName) {
+		this.partsDeptName = partsDeptName;
+	}
+
+	public int getPartsCount() {
+		return partsCount;
+	}
+
+	public void setPartsCount(int partsCount) {
+		this.partsCount = partsCount;
 	}
 
 	public int getId() {

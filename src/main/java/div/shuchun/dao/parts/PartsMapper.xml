@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="div.shuchun.dao.parts.PartsMapper">
+	
+	<select id="getPartsListByCode" resultMap="partsWithDept">
+		select * from `dsms_parts` as p 
+			left join `dsms_department` as d 
+			on p.partsDepartment = d.id 
+			where `partsCode` = #{partsCode};
+	</select>
+	
+	<resultMap type="parts" id="partsWithDept">
+		<result column="fab/dept" property="partsDeptName"/>		
+	</resultMap>
+	
+	<select id="getPartsCountById" resultType="int">
+		select `Quantity` from `dsms_partsInst` as pi 
+		left join `dsms_parts` as p 
+		on pi.partsId = p.id 
+		where `partsId` = #{id};
+	</select>
+
+</mapper>

@@ -21,5 +21,12 @@
 		<property name="suffix" value=".jsp"/>
 	</bean>
 
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<mvc:exclude-mapping path="/login.do"/>
+			<bean class="div.shuchun.utils.LoginInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
 	
 </beans>

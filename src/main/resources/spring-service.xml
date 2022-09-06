@@ -11,7 +11,11 @@
 	
 	<bean id="userServiceImpl" class="div.shuchun.service.user.UserServiceImpl">
 		<property name="userMapper" ref="userMapper"/>
-	</bean>        
+	</bean>
+	
+	<bean id="partsServiceImpl" class="div.shuchun.service.parts.PartsServiceImpl">
+		<property name="partsMapper" ref="partsMapper"/>
+	</bean>           
 	
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 		<property name="dataSource" ref="dataSource"/>

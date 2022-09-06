@@ -4,8 +4,12 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="div.shuchun.dao.user.UserMapper">
 
-	<select id="getAllUserList" resultType="user">
-		select * from `dsms_user`;
+	<select id="getLoginUser" resultType="user">
+		select * from `dsms_user` where `userCode` = #{userCode}
 	</select>
 
+	<select id="getAllUserList" resultType="user">
+		select * from `dsms_user`
+	</select>
+	
 </mapper>

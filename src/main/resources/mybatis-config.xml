@@ -10,6 +10,7 @@
   
 	<mappers>
 		<mapper resource="div/shuchun/dao/user/UserMapper.xml"/>
+		<mapper resource="div/shuchun/dao/parts/PartsMapper.xml"/>
 	</mappers>
   
   
