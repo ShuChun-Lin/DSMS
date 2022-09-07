@@ -13,4 +13,7 @@ public interface PartsMapper {
 	
 	// get parts instantiation count by partsId
 	List<Integer> getPartsCountById(@Param("id") int id);
+	
+	// get parts data's total count for page
+	int getPartsDataCount(@Param("partsCode") String partsCode);
 }

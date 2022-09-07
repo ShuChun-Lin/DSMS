@@ -32,6 +32,11 @@ public class PartsServiceImpl implements PartsService {
 		}
 		return sum;
 	}
+
+	@Override
+	public int getPartsDataCount(String partsCode) {
+		return partsMapper.getPartsDataCount(partsCode);
+	}
 	
 	
 }

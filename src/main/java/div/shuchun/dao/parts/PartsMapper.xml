@@ -21,5 +21,12 @@
 		on pi.partsId = p.id 
 		where `partsId` = #{id};
 	</select>
+	
+	<select id="getPartsDataCount" resultType="_int">
+		select count(*) from `dsms_parts` as p 
+		left join `dsms_department` as d 
+		on p.partsDepartment = d.id 
+		where `partsCode` = #{partsCode};
+	</select> <!-- 還未加上 分頁 sql  -->
 
 </mapper>
