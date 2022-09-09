@@ -9,7 +9,7 @@ import div.shuchun.pojo.Parts;
 public interface PartsMapper {
 
 	// get parts list by partsCode
-	List<Parts> getPartsListByCode(@Param("partsCode") String partsCode);
+	List<Parts> getPartsListByCode(@Param("partsCode") String partsCode, @Param("startIndex") int startIndex, @Param("pageSize") int pageSize);
 	
 	// get parts instantiation count by partsId
 	List<Integer> getPartsCountById(@Param("id") int id);

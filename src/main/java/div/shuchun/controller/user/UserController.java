@@ -32,7 +32,6 @@ public class UserController {
 		if (user != null) {
 			// user info save in session
 			request.getSession().setAttribute(Constants.USER_SESSION, user);
-			model.addAttribute("user", user.getUserName());
 			return "home";
 		} else {
 			request.setAttribute("error", "帳號或密碼錯誤");

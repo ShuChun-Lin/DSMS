@@ -15,10 +15,14 @@ public class PageSupport {
 	
 	// 主計算
 	public void pageCalculation(String pageIndex, int totalCount) {
-	  // 計算當前頁數
+		// 取得當前頁數
 		if (pageIndex != null) {                                                     // 如果前端輸入不是數字怎麼辦????
-			setCurrentPageNo(Integer.parseInt(pageIndex));  // 如果數字小於1 則 改為1
+			setCurrentPageNo(Integer.parseInt(pageIndex));  // String to int
 		}
+		
+		// 計算 total count (大於0 會一併計算總頁數)
+		setTotalCount(totalCount);
+		
 		// (控制不超過首頁和尾頁範圍)
 		if (currentPageNo < 1) {
 			currentPageNo = 1;
@@ -26,9 +30,7 @@ public class PageSupport {
 		if (currentPageNo > totalPageCount) {
 			currentPageNo = totalPageCount;
 		}
-		
-	  // 計算 total count (大於0 會一併計算總頁數)
-		setTotalCount(totalCount);
+
 	}
 	
 	

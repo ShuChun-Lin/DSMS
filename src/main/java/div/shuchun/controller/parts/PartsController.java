@@ -32,27 +32,23 @@ public class PartsController {
 			return "home";
 		}
 		
-		// search partsCode from database and put in model
-		List<Parts> partsList = partsService.getPartsListByCode(queryPartsCode);
-		model.addAttribute("partsList", partsList);
-		
 		// get current page no. from front-end
 		String pageIndex = request.getParameter("pageIndex");
+		
 		// get parts data count from database
 		int totalCount = partsService.getPartsDataCount(queryPartsCode);
 		
-		// calculate page
-		PageSupport pageSupport = new PageSupport();
-		pageSupport.pageCalculation(pageIndex, totalCount);
+		// get entire page info
+		PageSupport pageInfo = partsService.getPageSupportImpl(pageIndex, totalCount);
 		
 		// put page info in model
-//		request.setAttribute("totalCount", totalCount);
-//		request.setAttribute("currentPageNo", pageSupport.getCurrentPageNo());
-//		request.setAttribute("totalPageCount", pageSupport.getTotalPageCount());
 		model.addAttribute("totalCount", totalCount);
-		model.addAttribute("currentPageNo", pageSupport.getCurrentPageNo());
-		model.addAttribute("totalPageCount", pageSupport.getTotalPageCount());
+		model.addAttribute("currentPageNo", pageInfo.getCurrentPageNo());
+		model.addAttribute("totalPageCount", pageInfo.getTotalPageCount());
 		
+		// search partsCode from database and put in model
+		List<Parts> partsList = partsService.getPartsListByCode(queryPartsCode, pageInfo.getCurrentPageNo(), pageInfo.getPageSize());
+		model.addAttribute("partsList", partsList);
 		model.addAttribute("partsCode", queryPartsCode);  // 搜尋的值要留存
 		
 		return "home";

@@ -73,7 +73,7 @@
                                 <h1 style="color:aliceblue">部門庫房管理</h1>
                             </div>
                             <div class="col-6 pt-3 text-end name-logout">
-                                <span style="font-weight: bold;">${user}</span>
+                                <span style="font-weight: bold;">${userSession.userName}</span>
                                 <a class="link" href="${pageContext.request.contextPath}/logout.do">登出</a>
                             </div>
                         </div>
@@ -183,9 +183,9 @@
                                         </table>
                                         <div class="row">
                                             <div class="col-6">
+                                                <span>共${totalCount }筆紀錄&nbsp;&nbsp; ${currentPageNo
+                                                    }/${totalPageCount }頁 </span>
                                                 <ul class="pagination pagination-sm">
-                                                    <li>共${totalCount }筆紀錄&nbsp;&nbsp; ${currentPageNo
-                                                        }/${totalPageCount }頁</li>
                                                     <c:if test="${currentPageNo > 1}">
                                                         <li class="page-item"><a class="page-link"
                                                                 href="javascript:page_nav(document.forms[0],1);">首頁</a>
