@@ -15,6 +15,11 @@
 	
 	<bean id="partsServiceImpl" class="div.shuchun.service.parts.PartsServiceImpl">
 		<property name="partsMapper" ref="partsMapper"/>
+	</bean>
+	           
+	<bean id="positionServiceImpl" class="div.shuchun.service.position.PositionServiceImpl">
+		<property name="positionMapper" ref="positionMapper"/>
+		<property name="partsMapper" ref="partsMapper"/>
 	</bean>           
 	
 	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">

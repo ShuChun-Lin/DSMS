@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="div.shuchun.dao.position.PositionMapper">
+	
+	<select id="getPositionName" resultType="position">
+		select p.id,`positionName` from `dsms_position` as p 
+			left join `dsms_area` as a 
+			on p.positionArea = a.id 
+			where `positionParts` = #{partsId} 
+			and `positionStatus` = #{statusId} 
+			and `areaDepartment` = #{deptId}
+	</select>
+	
+</mapper>

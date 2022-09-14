@@ -18,7 +18,7 @@
 	
 	<select id="getPartsCountById" resultType="int">
 		select `Quantity` from `dsms_partsInst` as pi 
-		left join `dsms_parts` as p 
+		left join `dsms_parts` as p  
 		on pi.partsId = p.id 
 		where `partsId` = #{id};
 	</select>
@@ -28,6 +28,12 @@
 		left join `dsms_department` as d 
 		on p.partsDepartment = d.id 
 		where `partsCode` = #{partsCode};
+	</select>
+	
+	<select id="getPartsIdByDept" resultType="int">
+		select `id` from `dsms_parts` 
+		where `partsCode` = #{partsCode} 
+		and `partsDepartment` = #{deptId}
 	</select>
 
 </mapper>

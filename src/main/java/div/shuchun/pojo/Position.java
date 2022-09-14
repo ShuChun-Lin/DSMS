@@ -31,6 +31,19 @@ public class Position {
 		this.modifyBy = modifyBy;
 		this.modifyDate = modifyDate;
 	}
+	
+	public String toStringAsJson() {
+		return "{\"id\":\"" + id +
+				"\", \"positionName\":\"" + positionName +
+				"\", \"positionArea\":\"" + positionArea +
+				"\", \"positionParts\":\"" + positionParts +
+				"\", \"positionStatus\":\"" + positionStatus +
+				"\", \"createdBy\":\"" + createdBy +
+				"\", \"creationDate\":\"" + creationDate +
+				"\", \"modifyBy\":\"" + modifyBy +
+				"\", \"modifyDate\":\"" + modifyDate +
+				"\"}";
+	}
 
 	@Override
 	public String toString() {

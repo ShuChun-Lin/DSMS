@@ -16,4 +16,7 @@ public interface PartsMapper {
 	
 	// get parts data's total count for page
 	int getPartsDataCount(@Param("partsCode") String partsCode);
+	
+	// get parts id for dept
+	Integer getPartsIdByDept(@Param("partsCode") String partsCode, @Param("deptId") int deptId);
 }

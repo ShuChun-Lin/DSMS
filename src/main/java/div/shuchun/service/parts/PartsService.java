@@ -20,4 +20,7 @@ public interface PartsService {
 	
 	// get page info
 	PageSupport getPageSupportImpl(String pageIndex, int totalCount);
+	
+	// get result(boolean) from string type json array
+	boolean importParts(String jsonArrayString, int deptId);
 }

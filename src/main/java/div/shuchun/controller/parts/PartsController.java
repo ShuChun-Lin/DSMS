@@ -1,5 +1,6 @@
 package div.shuchun.controller.parts;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,7 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
+
+import div.shuchun.pojo.ImportObj;
 import div.shuchun.pojo.Parts;
 import div.shuchun.pojo.User;
 import div.shuchun.service.parts.PartsService;
@@ -21,6 +27,11 @@ public class PartsController {
 	@Autowired
 	private PartsService partsService;
 	
+	@RequestMapping("/searchParts")
+	public String toSearchPartsPage() {
+		return "searchParts";
+	}
+	
 	@RequestMapping("/partSearch")
 	public String getPartsListByCode(Model model, HttpServletRequest request) {
 		
@@ -29,7 +40,7 @@ public class PartsController {
 		
 		if (queryPartsCode == null || queryPartsCode.equals("")) {
 			model.addAttribute("err", "未輸入料號");
-			return "home";
+			return "searchParts";
 		}
 		
 		// get current page no. from front-end
@@ -51,6 +62,27 @@ public class PartsController {
 		model.addAttribute("partsList", partsList);
 		model.addAttribute("partsCode", queryPartsCode);  // 搜尋的值要留存
 		
-		return "home";
+		return "searchParts";
+	}
+	
+	@RequestMapping("/importParts")
+	public String toImportPage() {
+		return "import";
+	}
+	
+	@RequestMapping(value="/importParts.do", produces="application/json")
+	@ResponseBody
+	public String importParts(HttpServletRequest request, String tableInfo) {
+		System.out.println("tableInfo: " + tableInfo);
+		
+		if (tableInfo != null || "".equals(tableInfo)) {
+			return "server do not get message";
+		}
+		User user = (User) request.getSession().getAttribute(Constants.USER_SESSION);
+		int deptId = user.getUserDepartment();
+		boolean result = partsService.importParts(tableInfo, deptId);
+		if (result) return "success";
+		
+		return "import fail";
 	}
 }
