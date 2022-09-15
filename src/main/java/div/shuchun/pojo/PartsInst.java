@@ -2,8 +2,8 @@ package div.shuchun.pojo;
 
 public class PartsInst {
 
-	private int id;
-	private int Quantity;
+	private Integer id;
+	private int quantity;
 	private String snCode;
 	private int partsId;
 	private int statusId;
@@ -13,10 +13,10 @@ public class PartsInst {
 		super();
 	}
 
-	public PartsInst(int id, int quantity, String snCode, int partsId, int statusId, int positionId) {
+	public PartsInst(Integer id, int quantity, String snCode, int partsId, int statusId, int positionId) {
 		super();
 		this.id = id;
-		Quantity = quantity;
+		this.quantity = quantity;
 		this.snCode = snCode;
 		this.partsId = partsId;
 		this.statusId = statusId;
@@ -25,24 +25,24 @@ public class PartsInst {
 
 	@Override
 	public String toString() {
-		return "PartsInst [id=" + id + ", Quantity=" + Quantity + ", snCode=" + snCode + ", partsId=" + partsId
+		return "PartsInst [id=" + id + ", quantity=" + quantity + ", snCode=" + snCode + ", partsId=" + partsId
 				+ ", statusId=" + statusId + ", positionId=" + positionId + "]";
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
 	public int getQuantity() {
-		return Quantity;
+		return quantity;
 	}
 
 	public void setQuantity(int quantity) {
-		Quantity = quantity;
+		this.quantity = quantity;
 	}
 
 	public String getSnCode() {

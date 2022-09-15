@@ -10,6 +10,7 @@ import div.shuchun.dao.parts.PartsMapper;
 import div.shuchun.dao.position.PositionMapper;
 import div.shuchun.pojo.ImportObj;
 import div.shuchun.pojo.Parts;
+import div.shuchun.pojo.PartsInst;
 import div.shuchun.pojo.Position;
 import div.shuchun.utils.PageSupport;
 
@@ -81,29 +82,56 @@ public class PartsServiceImpl implements PartsService {
 			);
 			importObjList.add(iObj);
 		}
+		System.out.println("service: importObjList =>> " + importObjList);
 		// 得到了前端傳入的 statusId partsCode quantity positionName
-		// 這邊先對一個 import object 做分析
-		// 1. 取得 parts id (正常不會有錯，前端輸入時應該檢查過了)
-		Integer partsId = partsMapper.getPartsIdByDept(importObjList.get(0).getPartsCode(), deptId);
-		if (partsId == null || partsId < 1) {
-			return false;
-		}
-		// 2. 取得 position id
-		//		先拿到所有對應的 position id & position name，再對 position name 進行比對，
-		List<Position> positionList = positionMapper.getPositionName(partsId, importObjList.get(0).getStatusId(), deptId);
-		Position target = null;
-		for (Position position : positionList) {
-			if (position.getPositionName().equals(importObjList.get(0).getPositionName())) {
-				target = position;
-				break;
+		// 對每一筆資料進行處理
+		
+		for (int i=0; i < importObjList.size(); i++) {
+			// 1. 取得 parts id (正常不會有錯，前端輸入時應該檢查過了)
+			Integer partsId = partsMapper.getPartsIdByDept(importObjList.get(i).getPartsCode(), deptId);
+			if (partsId == null || partsId < 1) {
+				System.out.println("service: partID fail");
+				return false;
+			}
+			// 2. 取得 position id
+			//		先拿到所有對應的 position id & position name，再對 position name 進行比對，
+			List<Position> positionList = positionMapper.getPositionName(partsId, importObjList.get(i).getStatusId(), deptId);
+			Position target = null;
+			for (Position position : positionList) {
+				if (position.getPositionName().equals(importObjList.get(i).getPositionName())) {
+					target = position;
+					break;
+				}
+			}
+			if (target == null || target.getId() < 1) {
+				System.out.println("service: positionID fail");
+				return false;
+			}
+			Integer positionId = target.getId();
+			// 3. 判斷 partsInst 是否有相同的資料? 有: 加入數量, 沒有: 新建一筆資料
+			PartsInst partsInst = partsMapper.getPartsInst(partsId, importObjList.get(i).getStatusId(), positionId);
+			
+			if (partsInst == null) {
+				// 新增一筆資料
+				partsInst = new PartsInst(null, importObjList.get(i).getQuantity(),
+						null, partsId, importObjList.get(i).getStatusId(),
+						positionId);
+				int result = partsMapper.addPartsInst(partsInst);
+				if (result < 1) {
+					System.out.println("service: add partsInst fail");
+					return false;
+				}
+			} else {
+				// 修改資料數量
+				partsInst.setQuantity(partsInst.getQuantity() + importObjList.get(i).getQuantity());
+				int result = partsMapper.updateQuantity(partsInst);
+				if (result < 1) {
+					System.out.println("service: update partsInst quantity fail");
+					return false;
+				}
 			}
 		}
-		if (target == null || target.getId() < 1) {
-			return false;
-		}
-		Integer positionId = target.getId();
-		// 3. 判斷 partsInst 是否有相同的資料? 有: 加入數量, 沒有: 新建一筆資料
-		
+		System.out.println("service: return true ok");
 		return true;
 	}
 	

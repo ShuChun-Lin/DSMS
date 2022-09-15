@@ -75,14 +75,18 @@ public class PartsController {
 	public String importParts(HttpServletRequest request, String tableInfo) {
 		System.out.println("tableInfo: " + tableInfo);
 		
-		if (tableInfo != null || "".equals(tableInfo)) {
+		if (tableInfo == null || "".equals(tableInfo)) {
+			System.out.println("comtroller: server do not get message");
 			return "server do not get message";
 		}
 		User user = (User) request.getSession().getAttribute(Constants.USER_SESSION);
 		int deptId = user.getUserDepartment();
 		boolean result = partsService.importParts(tableInfo, deptId);
-		if (result) return "success";
-		
+		if (result) {
+			System.out.println("comtroller: success");
+			return "success";
+		}
+		System.out.println("comtroller: import fail");
 		return "import fail";
 	}
 }

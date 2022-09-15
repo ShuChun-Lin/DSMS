@@ -1,11 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
     xmlns:context="http://www.springframework.org/schema/context"
     xsi:schemaLocation="http://www.springframework.org/schema/beans
         https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop
+        https://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/tx
+        https://www.springframework.org/schema/tx/spring-tx.xsd
         http://www.springframework.org/schema/context
         https://www.springframework.org/schema/context/spring-context.xsd">
+    
+        
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	
+	<tx:advice id="tmAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="*"/>
+			<tx:method name="importParts"/>
+		</tx:attributes>
+	</tx:advice>
+	
+	<aop:config>
+		<aop:pointcut expression="execution(* div.shuchun.service.*.*(..))" id="tmPointCut"/>
+		
+		<aop:advisor advice-ref="tmAdvice" pointcut-ref="tmPointCut"/>
+	</aop:config>
 
 	<context:component-scan base-package="div.shuchun.service"/>
 	
@@ -15,6 +39,7 @@
 	
 	<bean id="partsServiceImpl" class="div.shuchun.service.parts.PartsServiceImpl">
 		<property name="partsMapper" ref="partsMapper"/>
+		<property name="positionMapper" ref="positionMapper"/>
 	</bean>
 	           
 	<bean id="positionServiceImpl" class="div.shuchun.service.position.PositionServiceImpl">
@@ -22,8 +47,6 @@
 		<property name="partsMapper" ref="partsMapper"/>
 	</bean>           
 	
-	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSource"/>
-	</bean>
+
 	
 </beans>

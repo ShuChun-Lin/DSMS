@@ -134,10 +134,10 @@ $(document).ready(function () {
             	"tableInfo": JSON.stringify(totalTableInfo)
             },
             success: function (data) {
-            	alert('success');
+            	alert('入料成功');
             },
             error: function() {
-            	alert('fail');
+            	alert('入料失敗');
             }
         });
         

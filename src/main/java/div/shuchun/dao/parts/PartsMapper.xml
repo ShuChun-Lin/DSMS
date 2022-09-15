@@ -35,5 +35,24 @@
 		where `partsCode` = #{partsCode} 
 		and `partsDepartment` = #{deptId}
 	</select>
+	
+	<select id="getPartsInst" resultType="partsInst">
+		select * from `dsms_partsinst` 
+		where `partsId` = #{partsId} 
+		and `statusId` = #{statusId} 
+		and `positionId` = #{positionId}
+	</select>
+		
+	<insert id="addPartsInst" parameterType="partsInst">
+		insert into `dsms_partsinst` value (#{partsInst.id}, #{partsInst.quantity}, 
+		#{partsInst.snCode}, #{partsInst.partsId}, 
+		#{partsInst.statusId}, #{partsInst.positionId});
+	</insert>
+	
+	<update id="updateQuantity" parameterType="partsInst">
+		update `dsms_partsinst`
+		set `quantity` = #{quantity}
+		where `id` = #{id}
+	</update>
 
 </mapper>
