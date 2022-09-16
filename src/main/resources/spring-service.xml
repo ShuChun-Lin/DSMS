@@ -12,24 +12,10 @@
         https://www.springframework.org/schema/tx/spring-tx.xsd
         http://www.springframework.org/schema/context
         https://www.springframework.org/schema/context/spring-context.xsd">
-    
+  
+  
+
         
-    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSource"/>
-	</bean>
-	
-	<tx:advice id="tmAdvice" transaction-manager="transactionManager">
-		<tx:attributes>
-			<tx:method name="*"/>
-			<tx:method name="importParts"/>
-		</tx:attributes>
-	</tx:advice>
-	
-	<aop:config>
-		<aop:pointcut expression="execution(* div.shuchun.service.*.*(..))" id="tmPointCut"/>
-		
-		<aop:advisor advice-ref="tmAdvice" pointcut-ref="tmPointCut"/>
-	</aop:config>
 
 	<context:component-scan base-package="div.shuchun.service"/>
 	
@@ -45,8 +31,29 @@
 	<bean id="positionServiceImpl" class="div.shuchun.service.position.PositionServiceImpl">
 		<property name="positionMapper" ref="positionMapper"/>
 		<property name="partsMapper" ref="partsMapper"/>
-	</bean>           
+	</bean>      
+	    
+	    
+	    
+	  	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
 	
+	<aop:aspectj-autoproxy/>
+	<bean id="MyTestAspect" class="div.shuchun.aop.TestAspect"/>
+	
+	<tx:advice id="tmAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="*"/>
+			<tx:method name="importParts"/>
+		</tx:attributes>
+	</tx:advice>
+	
+	<aop:config>
+		<aop:pointcut expression="execution(* div.shuchun.service.parts.*.*(..))" id="tmPointCut"/>
+		
+		<aop:advisor advice-ref="tmAdvice" pointcut-ref="tmPointCut"/>
+	</aop:config>
 
 	
 </beans>

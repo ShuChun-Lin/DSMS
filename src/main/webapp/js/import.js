@@ -64,30 +64,33 @@ $(document).ready(function () {
             	} else {
             		alert("發生異常，伺服器無回應");
             	}
-            },
-            error: function() {
-            	window.location = "${pageContext.request.contextPath}/";
             }
         });
     });
     
-    $("#statusId").blur(function () {
-    	// 清掉下面所有表格資料
-    	// 清除原先的 select option
-    	while ($("#position option").length > 1) {
-    		$("#position")[0].options.remove(1);
-    	}
-    	// 清除料號
-    	$("#partsCode").val("");
-    	// 清除數量
-    	$("#quantity").val("");
-    });
     
     $("#addList").click(function() {
     	var pStatus = $("#statusId").val();
     	var pCode = $("#partsCode").val();
     	var pQuantity = $("#quantity").val();
     	var pPosition = $("#position").find("option:selected").text();
+    	var pPositionId = $("#position").find("option:selected").val();
+    	if (pStatus == null || pStatus == "") {
+    		alert("請選擇狀態");
+    		return;
+    	}
+    	if (pCode == null || pCode == "") {
+    		alert("請輸入料號");
+    		return;
+    	}
+    	if (pQuantity == null || pQuantity == "" || pQuantity < 1 || pQuantity.includes(".")) {
+    		alert("請輸入數量(大於0)");
+    		return;
+    	}
+    	if (pPositionId == null || pPositionId == "") {
+    		alert("請選擇儲位");
+    		return;
+    	}
     	
     	var newRow = importTable.insertRow();
     	var newTd0 = newRow.insertCell();
@@ -101,6 +104,8 @@ $(document).ready(function () {
         newTd2.innerText = pQuantity;
         newTd3.innerText = pPosition;
         newTd4.innerHTML = '<input type="button" class="btn btn-warning" value="刪除" onclick="del(this)">';
+        
+        clearForm();
         
     });
     
@@ -134,10 +139,10 @@ $(document).ready(function () {
             	"tableInfo": JSON.stringify(totalTableInfo)
             },
             success: function (data) {
-            	alert('入料成功');
+            	alert('入料成功: ');
             },
-            error: function() {
-            	alert('入料失敗');
+            error: function(data) {
+            	alert('入料失敗: ');
             }
         });
         
@@ -151,6 +156,18 @@ function del(o) {
 	console.log("delete a row");
 	// delete this row
 	t.deleteRow(o.parentNode.parentNode.rowIndex);
+}
+
+function clearForm() {
+	// 清掉下面所有表格資料
+	// 清除原先的 select option
+	while ($("#position option").length > 1) {
+		$("#position")[0].options.remove(1);
+	}
+	// 清除料號
+	$("#partsCode").val("");
+	// 清除數量
+	$("#quantity").val("");
 }
 
 

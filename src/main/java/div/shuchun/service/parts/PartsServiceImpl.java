@@ -89,10 +89,12 @@ public class PartsServiceImpl implements PartsService {
 		for (int i=0; i < importObjList.size(); i++) {
 			// 1. 取得 parts id (正常不會有錯，前端輸入時應該檢查過了)
 			Integer partsId = partsMapper.getPartsIdByDept(importObjList.get(i).getPartsCode(), deptId);
-			if (partsId == null || partsId < 1) {
-				System.out.println("service: partID fail");
-				return false;
-			}
+			// 對可能得異常處理導致沒有 exception 拋出，所以事務沒有回滾
+//			if (partsId == null || partsId < 1) {
+//				System.out.println("service: partID fail");
+//				return false;
+//			}
+			
 			// 2. 取得 position id
 			//		先拿到所有對應的 position id & position name，再對 position name 進行比對，
 			List<Position> positionList = positionMapper.getPositionName(partsId, importObjList.get(i).getStatusId(), deptId);
@@ -103,10 +105,11 @@ public class PartsServiceImpl implements PartsService {
 					break;
 				}
 			}
-			if (target == null || target.getId() < 1) {
-				System.out.println("service: positionID fail");
-				return false;
-			}
+			// 對可能得異常處理導致沒有 exception 拋出，所以事務沒有回滾
+//			if (target == null || target.getId() < 1) {
+//				System.out.println("service: positionID fail");
+//				return false;
+//			}
 			Integer positionId = target.getId();
 			// 3. 判斷 partsInst 是否有相同的資料? 有: 加入數量, 沒有: 新建一筆資料
 			PartsInst partsInst = partsMapper.getPartsInst(partsId, importObjList.get(i).getStatusId(), positionId);

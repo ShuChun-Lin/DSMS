@@ -18,7 +18,7 @@
                     <form>
                     	<div class="mb-3">
                             <label for="statusId" class="form-label">物料狀態:</label>
-                            <select class="form-control" id="statusId" name="statusId" required>
+                            <select class="form-control" id="statusId" name="statusId" onblur="clearForm()" required>
                                 <option value="1">新品(1)</option>
                                 <option value="2">報廢品(2)</option>
                             </select>
@@ -36,7 +36,7 @@
                         <div class="mb-3">
                             <label for="position" class="form-label">儲位:</label>
                             <select class="form-control" id="position" name="position" required>
-                                <option value="">--Please choose a position--</option>
+                                <option value="" style="display:none">--Please choose a position--</option>
                                 
                             </select>
                         </div>
