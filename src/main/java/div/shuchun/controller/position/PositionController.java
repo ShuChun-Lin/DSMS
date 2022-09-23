@@ -34,4 +34,9 @@ public class PositionController {
 		System.out.println(positionList);
 		return positionList.toString();
 	}
+	
+	@RequestMapping("/searchPosition")
+	public String toSearchPositionPage() {
+		return "searchPosition";
+	}
 }

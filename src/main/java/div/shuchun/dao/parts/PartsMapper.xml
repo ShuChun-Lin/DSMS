@@ -54,5 +54,22 @@
 		set `quantity` = #{quantity}
 		where `id` = #{id}
 	</update>
+	
+	<select id="getExportObjtList" resultType="searchExportObj">
+		select p.partsCode, p.partsName, pi.quantity, po.positionName, a.areaName 
+		from `dsms_partsinst` as pi
+		left join `dsms_parts` as p
+   		on pi.partsId = p.id
+    	left join `dsms_position` as po
+	    on pi.positionId = po.id
+		left join `dsms_area` as a
+	    on a.id = po.positionArea
+		where `partsId` = #{partsId} 
+		and `statusId` = #{statusId};
+	</select>
+	
+	<delete id="deletePartsInst" parameterType="partsInst">
+		delete from `dsms_partsinst` where `id` = #{id};
+	</delete>
 
 </mapper>

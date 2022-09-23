@@ -8,7 +8,7 @@
                     <div class="col-md-12 column">
                         <div class="page-header">
                             <h1>
-                                <small>入料</small>
+                                <small>儲位/儲區</small>
                             </h1>
                         </div>
                     </div>
@@ -64,4 +64,4 @@
             <!-- ---------------------------------------------------------------------------------------------------- -->
 
             <%@include file="common/foot.jsp" %>
-                <script type="text/javascript" src="${pageContext.request.contextPath }/js/import.js"></script>
+                <script type="text/javascript" src="${pageContext.request.contextPath }/js/.js"></script>

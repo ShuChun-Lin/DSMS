@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import div.shuchun.pojo.Parts;
 import div.shuchun.pojo.PartsInst;
+import div.shuchun.pojo.SearchExportObj;
 
 public interface PartsMapper {
 
@@ -29,4 +30,10 @@ public interface PartsMapper {
 	
 	// update quantity of a partsInst data
 	int updateQuantity(PartsInst partsInst);
+	
+	// get export parts list (partsCode, partsName, quantity, area, position) by partsId, statusId
+	List<SearchExportObj> getExportObjtList(@Param("partsId") Integer partsId, @Param("statusId") Integer statusId);
+	
+	// delete partsInst
+	int deletePartsInst(PartsInst partsInst);
 }

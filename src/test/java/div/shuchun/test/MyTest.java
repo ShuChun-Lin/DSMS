@@ -43,7 +43,7 @@ public class MyTest {
 		((ConfigurableApplicationContext)context).close();  // 用來關閉 context
 	}
 	
-	@Test
+//	@Test
 	public void testGetPosition() {
 		ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 		PositionService positionService = (PositionService) context.getBean("positionServiceImpl");
@@ -51,6 +51,17 @@ public class MyTest {
 		System.out.println(positionService.getPosition("S000GEAR002", 1, new User()));
 		
 		((ConfigurableApplicationContext)context).close();  // 用來關閉 context
+	}
+	
+	@Test
+	public void testgetExportObjtList() {
+		ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+		PartsService partsService = (PartsService) context.getBean("partsServiceImpl");
+		
+		System.out.println(partsService.getExportObjtList("S000GEAR001", 1, 2));
+		
+		((ConfigurableApplicationContext)context).close();  // 用來關閉 context
+		
 	}
 }
 

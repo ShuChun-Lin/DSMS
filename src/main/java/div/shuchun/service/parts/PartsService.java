@@ -2,7 +2,6 @@ package div.shuchun.service.parts;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
 
 import div.shuchun.pojo.Parts;
 import div.shuchun.utils.PageSupport;
@@ -21,6 +20,12 @@ public interface PartsService {
 	// get page info
 	PageSupport getPageSupportImpl(String pageIndex, int totalCount);
 	
-	// get result(boolean) from string type json array
+	// import partsInst from string type json array
 	boolean importParts(String jsonArrayString, int deptId);
+	
+	// get export parts list as String (json)
+	List<String> getExportObjtList(String partsCode, Integer deptId, Integer statusId);
+
+	// export partsInst
+	boolean exportParts(String jsonArrayString, int deptId);
 }

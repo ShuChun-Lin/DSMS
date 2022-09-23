@@ -111,7 +111,7 @@
                                             </div>
                                         </a>
                                         <a id="collapseOne" class="collapse btn" data-bs-parent="#accordion"
-                                            href="${pageContext.request.contextPath}/searchParts">
+                                            href="${pageContext.request.contextPath}/exportParts">
                                             <div class="card-body">
                                                 領料
                                             </div>
@@ -123,28 +123,31 @@
                                                 <span>儲放位置</span>
                                             </div>
                                         </a>
-                                        <div id="collapseTwo" class="collapse" data-bs-parent="#accordion">
+                                        <a id="collapseTwo" class="collapse btn" data-bs-parent="#accordion"
+                                            href="${pageContext.request.contextPath}/searchPosition">
                                             <div class="card-body">
-                                                儲區
+                                                儲區/ 儲位
                                             </div>
-                                        </div>
-                                        <div id="collapseTwo" class="collapse" data-bs-parent="#accordion">
-                                            <div class="card-body">
-                                                儲位
-                                            </div>
-                                        </div>
+                                        </a>
                                     </div>
                                     <div class="card">
                                         <a class="collapsed btn" data-bs-toggle="collapse" href="#collapseThree">
                                             <div class="card-header">
+                                                管理
+                                            </div>
+                                        </a>
+                                        <a id="collapseThree" class="collapse btn" data-bs-parent="#accordion"
+                                            href="#">
+                                            <div class="card-body">
                                                 人員
                                             </div>
                                         </a>
-                                        <div id="collapseThree" class="collapse" data-bs-parent="#accordion">
+                                        <a id="collapseThree" class="collapse btn" data-bs-parent="#accordion"
+                                            href="#">
                                             <div class="card-body">
-                                                查詢/修改
+                                                物料
                                             </div>
-                                        </div>
+                                        </a>
                                     </div>
                                 </div>
                             </div>

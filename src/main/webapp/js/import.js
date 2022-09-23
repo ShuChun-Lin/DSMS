@@ -131,7 +131,7 @@ $(document).ready(function () {
     		oneTableInfo.position = tableInfoTemp[3];
     		totalTableInfo.push(oneTableInfo);
     	}
-    	console.log(totalTableInfo);
+    	//console.log(totalTableInfo);
     	$.ajax({
         	type: "POST",
         	url:"/DSMS/importParts.do",
@@ -139,10 +139,10 @@ $(document).ready(function () {
             	"tableInfo": JSON.stringify(totalTableInfo)
             },
             success: function (data) {
-            	alert('入料成功: ');
+            	alert('入料成功');
             },
             error: function(data) {
-            	alert('入料失敗: ');
+            	alert('入料失敗');
             }
         });
         

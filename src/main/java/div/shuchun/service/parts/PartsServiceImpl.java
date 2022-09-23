@@ -12,6 +12,8 @@ import div.shuchun.pojo.ImportObj;
 import div.shuchun.pojo.Parts;
 import div.shuchun.pojo.PartsInst;
 import div.shuchun.pojo.Position;
+import div.shuchun.pojo.SearchExportObj;
+import div.shuchun.utils.JsonSupport;
 import div.shuchun.utils.PageSupport;
 
 public class PartsServiceImpl implements PartsService {
@@ -68,32 +70,22 @@ public class PartsServiceImpl implements PartsService {
 
 	@Override
 	public boolean importParts(String jsonArrayString, int deptId) {
-		JSONArray jsonArray = JSONObject.parseArray(jsonArrayString);
-		// Json Array transfer to List<ImportObj>
-		List<ImportObj> importObjList = new ArrayList<>();
-		JSONObject jObj;
-		ImportObj iObj;
-		for (int i=0; i<jsonArray.size(); i++) {
-			jObj = (JSONObject) jsonArray.get(i);
-			iObj = new ImportObj(jObj.getInteger("statusId"), 
-					jObj.getString("partsCode"), 
-					jObj.getInteger("quantity"), 
-					jObj.getString("position")
-			);
-			importObjList.add(iObj);
-		}
-		System.out.println("service: importObjList =>> " + importObjList);
-		// 得到了前端傳入的 statusId partsCode quantity positionName
-		// 對每一筆資料進行處理
 		
+		JsonSupport jtj = new JsonSupport();
+		List<ImportObj> importObjList = jtj.jsonArrayToPartObjList(jsonArrayString);
+		System.out.println("service: importObjList =>> " + importObjList);
+		
+		// 得到了前端傳入的 statusId partsCode quantity positionName，對每一筆資料進行處理
 		for (int i=0; i < importObjList.size(); i++) {
 			// 1. 取得 parts id (正常不會有錯，前端輸入時應該檢查過了)
 			Integer partsId = partsMapper.getPartsIdByDept(importObjList.get(i).getPartsCode(), deptId);
-			// 對可能得異常處理導致沒有 exception 拋出，所以事務沒有回滾
-//			if (partsId == null || partsId < 1) {
-//				System.out.println("service: partID fail");
-//				return false;
-//			}
+			
+			// 下面的判斷讓程式沒有 exception 拋出，所以事務沒有回滾
+			/*if (partsId == null || partsId < 1) {  // 如果沒有找到對應的 partsId
+			 *	System.out.println("service: partID fail");
+			 *	return false;
+			 *}
+			 */
 			
 			// 2. 取得 position id
 			//		先拿到所有對應的 position id & position name，再對 position name 進行比對，
@@ -105,11 +97,13 @@ public class PartsServiceImpl implements PartsService {
 					break;
 				}
 			}
-			// 對可能得異常處理導致沒有 exception 拋出，所以事務沒有回滾
-//			if (target == null || target.getId() < 1) {
-//				System.out.println("service: positionID fail");
-//				return false;
-//			}
+			// 下面的判斷讓程式沒有 exception 拋出，所以事務沒有回滾
+			/*if (target == null || target.getId() < 1) {
+			 *	System.out.println("service: positionID fail");
+			 *	return false;
+			 *}
+			 */
+			
 			Integer positionId = target.getId();
 			// 3. 判斷 partsInst 是否有相同的資料? 有: 加入數量, 沒有: 新建一筆資料
 			PartsInst partsInst = partsMapper.getPartsInst(partsId, importObjList.get(i).getStatusId(), positionId);
@@ -128,7 +122,7 @@ public class PartsServiceImpl implements PartsService {
 				// 修改資料數量
 				partsInst.setQuantity(partsInst.getQuantity() + importObjList.get(i).getQuantity());
 				int result = partsMapper.updateQuantity(partsInst);
-				if (result < 1) {
+				if (result < 1) {  // 這個沒有意義，不會rollback
 					System.out.println("service: update partsInst quantity fail");
 					return false;
 				}
@@ -137,6 +131,73 @@ public class PartsServiceImpl implements PartsService {
 		System.out.println("service: return true ok");
 		return true;
 	}
+
+	@Override
+	public List<String> getExportObjtList(String partsCode, Integer deptId, Integer statusId) {
+		// get partsId
+		Integer partsId = partsMapper.getPartsIdByDept(partsCode, deptId);
+		if (partsId == null || partsId < 1) {
+			return null;
+		}
+		
+		// get export object list
+		List<SearchExportObj> exportList = partsMapper.getExportObjtList(partsId, statusId);
+		
+		// export obj list turn to json string list
+		List<String> partsInstList = new ArrayList<>();
+		for (SearchExportObj exObj : exportList) {
+			partsInstList.add(exObj.toStringAsJson());
+		}
+		
+		return partsInstList;
+	}
 	
-	
+	@Override
+	public boolean exportParts(String jsonArrayString, int deptId) {
+		
+		JsonSupport jtj = new JsonSupport();
+		List<ImportObj> exportObjList = jtj.jsonArrayToPartObjList(jsonArrayString);
+		System.out.println("service: exportObjList =>> " + exportObjList);
+		
+		// 得到了前端傳入的 statusId partsCode quantity positionName，對每一筆資料進行處理
+		for (int i=0; i < exportObjList.size(); i++) {
+			// 1. 取得 parts id (正常不會有錯，前端輸入時應該檢查過了)
+			Integer partsId = partsMapper.getPartsIdByDept(exportObjList.get(i).getPartsCode(), deptId);
+			
+			// 2. 取得 position id
+			//		先拿到所有對應的 position id & position name，再對 position name 進行比對，
+			List<Position> positionList = positionMapper.getPositionName(partsId, exportObjList.get(i).getStatusId(), deptId);
+			Position target = null;
+			for (Position position : positionList) {
+				if (position.getPositionName().equals(exportObjList.get(i).getPositionName())) {
+					target = position;
+					break;
+				}
+			}
+			Integer positionId = target.getId();
+			
+			// 3. 判斷 partsInst 是否有相同的資料? 有: 減少數量, 沒有: 拋出異常
+			PartsInst partsInst = partsMapper.getPartsInst(partsId, exportObjList.get(i).getStatusId(), positionId);
+			
+			if (partsInst == null) {
+				// 拋出異常
+				throw new NullPointerException();
+			} else {
+				// 先比較領出數量與現有數量
+				if (exportObjList.get(i).getQuantity() > partsInst.getQuantity()) {  // 領出比庫存多
+					// 拋出異常
+					throw new NullPointerException();
+				}
+				if (exportObjList.get(i).getQuantity() == partsInst.getQuantity()) {  // 領出跟庫存一樣，刪除資料
+					partsMapper.deletePartsInst(partsInst);
+				} else {
+					// 修改資料數量
+					partsInst.setQuantity(partsInst.getQuantity() - exportObjList.get(i).getQuantity());
+					int result = partsMapper.updateQuantity(partsInst);
+				}
+			}
+		}
+		System.out.println("service: return true ok");
+		return true;
+	}
 }

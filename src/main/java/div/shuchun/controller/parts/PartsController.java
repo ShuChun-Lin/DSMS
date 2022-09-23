@@ -83,9 +83,54 @@ public class PartsController {
 		int deptId = user.getUserDepartment();
 		boolean result = partsService.importParts(tableInfo, deptId);
 
-		System.out.println("controller: success");
-		return "success";
+		if (result) {
+			System.out.println("controller: success");
+			return "success";
+		}
 		
-
+		return "fail";
+	}
+	
+	@RequestMapping("/exportParts")
+	public String toExportPage() {
+		return "export";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/getPartsInstList.do", produces="application/json")
+	public String getPartsInstListForExport(HttpServletRequest request, String partsCode, String statusId) {
+		
+		User user = (User) request.getSession().getAttribute(Constants.USER_SESSION);
+		int deptId = user.getUserDepartment();
+		
+		List<String> partsInstList = partsService.getExportObjtList(partsCode, deptId, Integer.parseInt(statusId));
+		System.out.println(partsInstList);
+		
+		// judge partsInstList size
+		if (partsInstList == null || partsInstList.size() == 0) {
+			return "{\"warning\":\"沒有此料\"}";
+		}
+		return partsInstList.toString();
+	}
+	
+	@RequestMapping(value="/exportParts.do")
+	@ResponseBody
+	public String exportParts(HttpServletRequest request, String tableInfo) {
+		System.out.println("tableInfo: " + tableInfo);
+		
+		if (tableInfo == null || "".equals(tableInfo)) {
+			System.out.println("controller: server do not get message");
+			return "server do not get message";
+		}
+		User user = (User) request.getSession().getAttribute(Constants.USER_SESSION);
+		int deptId = user.getUserDepartment();
+		boolean result = partsService.exportParts(tableInfo, deptId);
+		
+		if (result) {
+			System.out.println("controller: success");
+			return "success";
+		}
+		
+		return "fail";
 	}
 }
