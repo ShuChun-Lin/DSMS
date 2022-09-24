@@ -39,4 +39,15 @@ public class PositionController {
 	public String toSearchPositionPage() {
 		return "searchPosition";
 	}
+	
+	@ResponseBody
+	@RequestMapping(value="/getAreaPosition.do", produces="application/json")
+	public String getAreaPosition(HttpServletRequest request, String areaId, String statusId, 
+			String partsCode, String positionName) {
+		
+		List<String> areaPositionList = positionService.getSearchAreaPosition(Integer.parseInt(areaId),
+				Integer.parseInt(statusId), partsCode, positionName);
+		System.out.println(areaPositionList);
+		return areaPositionList.toString();
+	}
 }

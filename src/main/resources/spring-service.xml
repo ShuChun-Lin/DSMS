@@ -31,7 +31,11 @@
 	<bean id="positionServiceImpl" class="div.shuchun.service.position.PositionServiceImpl">
 		<property name="positionMapper" ref="positionMapper"/>
 		<property name="partsMapper" ref="partsMapper"/>
-	</bean>      
+	</bean>  
+	
+	<bean id="areaServiceImpl" class="div.shuchun.service.area.AreaServiceImpl">
+		<property name="areaMapper" ref="areaMapper"/>
+	</bean>    
 	    
 	    
 	    

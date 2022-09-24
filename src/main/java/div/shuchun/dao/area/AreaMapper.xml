@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="div.shuchun.dao.area.AreaMapper">
+
+	<select id="getAreaList" resultType="area">
+		select * from `dsms_area` where `areaDepartment` = #{deptId}
+	</select>
+
+</mapper>

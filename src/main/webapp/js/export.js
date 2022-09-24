@@ -24,8 +24,9 @@ $(document).ready(function () {
                 	// get data
                 	if (data != null && data != "") {
                 		// 刪除舊資料 Row
-                		for (let i=1; i<$("#partsTable")[0].rows.length; i++) {
-                			$("#partsTable")[0].deleteRow(i);
+                		var originRowsLength = $("#partsTable")[0].rows.length;
+                		for (let i=1; i<originRowsLength; i++) {
+                			$("#partsTable")[0].deleteRow(1);
                 		}
                 		
             			// 寫入新資料

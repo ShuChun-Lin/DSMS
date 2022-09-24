@@ -29,6 +29,14 @@ public class Area {
 		this.modifyBy = modifyBy;
 		this.modifyDate = modifyDate;
 	}
+	
+	public String toStringAsJson() {
+		return "{\"id\":\"" + id + "\"," +
+				"\"areaName\":\"" + areaName + "\"," +
+				"\"areaDesc\":\"" + areaDesc + "\"," +
+				"\"areaDepartment\":\"" + areaDepartment + "\"}";
+	}
+
 
 	@Override
 	public String toString() {

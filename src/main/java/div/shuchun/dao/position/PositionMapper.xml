@@ -13,4 +13,18 @@
 			and `areaDepartment` = #{deptId}
 	</select>
 	
+	<select id="getSearchAreaPosition" resultType="searchAreaPositionObj">
+		select * from `dsms_position` as po
+			left join `dsms_parts` as pa
+			on po.positionParts = pa.id
+			left join `dsms_status` as s
+			on po.positionStatus = s.id 
+			<where>
+				<if test="positionArea != null">po.positionArea = #{positionArea}</if>
+				<if test="statusId != null">and s.id = #{statusId}</if>
+				<if test="partsCode != null">and pa.partsCode like "%"#{partsCode}"%"</if>
+				<if test="positionName != null">and po.positionName like "%"#{positionName}"%"</if>
+			</where>
+	</select>
+	
 </mapper>

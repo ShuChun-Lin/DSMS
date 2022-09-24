@@ -6,6 +6,7 @@ import java.util.List;
 import div.shuchun.dao.parts.PartsMapper;
 import div.shuchun.dao.position.PositionMapper;
 import div.shuchun.pojo.Position;
+import div.shuchun.pojo.SearchAreaPositionObj;
 import div.shuchun.pojo.User;
 
 public class PositionServiceImpl implements PositionService {
@@ -49,6 +50,19 @@ public class PositionServiceImpl implements PositionService {
 			positionString.add(position.toStringAsJson());
 		}
 		return positionString;
+	}
+
+	@Override
+	public List<String> getSearchAreaPosition(Integer positionArea, Integer statusId, String partsCode,
+			String positionName) {
+		List<SearchAreaPositionObj> searchAreaPositionList = positionMapper.getSearchAreaPosition(positionArea, 
+				statusId, partsCode, positionName);
+		
+		List<String> searchAreaPositionJsonList = new ArrayList<>();
+		for (SearchAreaPositionObj sapObj : searchAreaPositionList) {
+			searchAreaPositionJsonList.add(sapObj.toStringAsJson());
+		}
+		return searchAreaPositionJsonList;
 	}
 
 }

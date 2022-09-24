@@ -47,18 +47,18 @@
                             </div>
                         </div>
                     </div>
-<!-- 加入領料彈出框 -->
+<%-- 加入領料彈出框 --%>
 <div class="modal fade" id="addCheckModal">
   <div class="modal-dialog">
     <div class="modal-content">
  
-      <!-- 框頭部 -->
+      <%-- 框頭部 --%>
       <div class="modal-header">
         <h4 class="modal-title">加入領料清單</h4>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
  
-      <!-- 框內容 -->
+      <%-- 框內容 --%>
       <div class="modal-body">
       	料號: <small id="addPartsCode"></small><br>
       	料名: <small id="addPartsName"></small><br>
@@ -69,7 +69,7 @@
       	<button class="btn btn-primary" type="button" id="addBtn">加入</button>
       </div>
  
-      <!-- 框底部 -->
+      <%-- 框底部 --%>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="closeCheckModel">關閉</button>
       </div>
@@ -78,18 +78,18 @@
   </div>
 </div>
 
-<!-- 領料清單框 -->
+<%-- 領料清單框 --%>
 <div class="modal fade" id="exportListModal">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
  
-      <!-- 框頭部 -->
+      <%-- 框頭部 --%>
       <div class="modal-header">
         <h4 class="modal-title">領料清單</h4>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
  
-      <!-- 框內容 -->
+      <%-- 框內容 --%>
       <div class="modal-body">
       	<table class="table table-hover table-striped" id="exportTable">
         	<tr>
@@ -104,7 +104,7 @@
       	<button class="btn btn-primary" type="button" id="doExport">領料</button>
       </div>
  
-      <!-- 框底部 -->
+      <%-- 框底部 --%>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">關閉</button>
       </div>
