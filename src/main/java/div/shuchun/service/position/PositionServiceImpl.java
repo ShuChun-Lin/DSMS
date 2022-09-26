@@ -55,10 +55,17 @@ public class PositionServiceImpl implements PositionService {
 	@Override
 	public List<String> getSearchAreaPosition(Integer positionArea, Integer statusId, String partsCode,
 			String positionName) {
+		List<String> searchAreaPositionJsonList = new ArrayList<>();
+		
 		List<SearchAreaPositionObj> searchAreaPositionList = positionMapper.getSearchAreaPosition(positionArea, 
 				statusId, partsCode, positionName);
 		
-		List<String> searchAreaPositionJsonList = new ArrayList<>();
+		if (searchAreaPositionList.size() == 0) {
+			searchAreaPositionJsonList.add("{\"warning\":\"沒有儲位\"}");
+			return searchAreaPositionJsonList;
+		}
+		
+		
 		for (SearchAreaPositionObj sapObj : searchAreaPositionList) {
 			searchAreaPositionJsonList.add(sapObj.toStringAsJson());
 		}

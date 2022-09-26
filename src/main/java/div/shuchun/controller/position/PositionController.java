@@ -45,6 +45,7 @@ public class PositionController {
 	public String getAreaPosition(HttpServletRequest request, String areaId, String statusId, 
 			String partsCode, String positionName) {
 		
+		System.out.println("statusId: " + statusId);
 		List<String> areaPositionList = positionService.getSearchAreaPosition(Integer.parseInt(areaId),
 				Integer.parseInt(statusId), partsCode, positionName);
 		System.out.println(areaPositionList);

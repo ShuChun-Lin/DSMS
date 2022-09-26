@@ -4,21 +4,21 @@ import java.util.Date;
 
 public class Area {
 
-	private int id;
+	private Integer id;
 	private String areaName;
 	private String areaDesc;
-	private int areaDepartment;
-	private int createdBy;
+	private Integer areaDepartment;
+	private Integer createdBy;
 	private Date creationDate;
-	private int modifyBy;
+	private Integer modifyBy;
 	private Date modifyDate;
 	
 	public Area() {
 		super();
 	}
 
-	public Area(int id, String areaName, String areaDesc, int areaDepartment, int createdBy, Date creationDate,
-			int modifyBy, Date modifyDate) {
+	public Area(Integer id, String areaName, String areaDesc, Integer areaDepartment, Integer createdBy, Date creationDate,
+			Integer modifyBy, Date modifyDate) {
 		super();
 		this.id = id;
 		this.areaName = areaName;
@@ -45,11 +45,11 @@ public class Area {
 				+ modifyBy + ", modifyDate=" + modifyDate + "]";
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -69,19 +69,19 @@ public class Area {
 		this.areaDesc = areaDesc;
 	}
 
-	public int getAreaDepartment() {
+	public Integer getAreaDepartment() {
 		return areaDepartment;
 	}
 
-	public void setAreaDepartment(int areaDepartment) {
+	public void setAreaDepartment(Integer areaDepartment) {
 		this.areaDepartment = areaDepartment;
 	}
 
-	public int getCreatedBy() {
+	public Integer getCreatedBy() {
 		return createdBy;
 	}
 
-	public void setCreatedBy(int createdBy) {
+	public void setCreatedBy(Integer createdBy) {
 		this.createdBy = createdBy;
 	}
 
@@ -93,11 +93,11 @@ public class Area {
 		this.creationDate = creationDate;
 	}
 
-	public int getModifyBy() {
+	public Integer getModifyBy() {
 		return modifyBy;
 	}
 
-	public void setModifyBy(int modifyBy) {
+	public void setModifyBy(Integer modifyBy) {
 		this.modifyBy = modifyBy;
 	}
 

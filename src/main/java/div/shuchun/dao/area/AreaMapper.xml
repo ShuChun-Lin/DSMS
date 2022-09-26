@@ -5,7 +5,32 @@
 <mapper namespace="div.shuchun.dao.area.AreaMapper">
 
 	<select id="getAreaList" resultType="area">
-		select * from `dsms_area` where `areaDepartment` = #{deptId}
+		select distinct area.id, area.areaName, area.areaDesc, area.areaDepartment from `dsms_area` as area
+		left join `dsms_position` as po
+		on po.positionArea = area.id
+		<if test="partsCode != null and partsCode != ''">
+			left join `dsms_parts` as pa
+			on po.positionParts = pa.id
+		</if>
+		<where>
+			area.areaDepartment = #{deptId}
+			<if test="statusId != 0">and po.positionStatus = #{statusId}</if>
+			<if test="partsCode != null and partsCode != ''">and pa.partsCode like "%"#{partsCode}"%"</if>
+			<if test="positionName != null and positionName != ''">and po.positionName like "%"#{positionName}"%"</if>
+		</where>
 	</select>
+	
+	<select id="getAreaByNameAndDeptId" resultType="area">
+		select * from `dsms_area`
+		where `areaDepartment` = #{deptId}
+		and `areaName` = #{areaName};
+	</select>
+	
+	<insert id="addArea" parameterType="area">
+		insert into `dsms_area`
+		(`id`,`areaName`, `areaDesc`, `areaDepartment`, `createdBy`, `creationDate`, `modifyBy`, `modifyDate`)
+		values (null, #{areaName}, #{areaDesc}, #{areaDepartment}, 
+				#{createdBy}, #{creationDate}, #{modifyBy}, #{modifyDate});
+	</insert>
 
 </mapper>
