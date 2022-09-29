@@ -200,4 +200,18 @@ public class PartsServiceImpl implements PartsService {
 		System.out.println("service: return true ok");
 		return true;
 	}
+
+	@Override
+	public Integer getPartsIdByDept(String partsCode, int deptId) {
+		Integer partsId = partsMapper.getPartsIdByDept(partsCode, deptId);
+		return partsId;
+	}
+
+	@Override
+	public boolean isPartsInstWithPositionIdExist(Integer positionId) {
+		if (partsMapper.getRowCountOfPartsInstByPositionId(positionId) > 0) {
+			return true;
+		}
+		return false;
+	}
 }

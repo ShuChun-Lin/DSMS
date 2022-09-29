@@ -4,22 +4,22 @@ import java.util.Date;
 
 public class Position {
 
-	private int id;
+	private Integer id;
 	private String positionName;
-	private int positionArea;
-	private int positionParts;
-	private int positionStatus;
-	private int createdBy;
+	private Integer positionArea;
+	private Integer positionParts;
+	private Integer positionStatus;
+	private Integer createdBy;
 	private Date creationDate;
-	private int modifyBy;
+	private Integer modifyBy;
 	private Date modifyDate;
 	
 	public Position() {
 		super();
 	}
 
-	public Position(int id, String positionName, int positionArea, int positionParts, int positionStatus, int createdBy,
-			Date creationDate, int modifyBy, Date modifyDate) {
+	public Position(Integer id, String positionName, Integer positionArea, Integer positionParts, Integer positionStatus, Integer createdBy,
+			Date creationDate, Integer modifyBy, Date modifyDate) {
 		super();
 		this.id = id;
 		this.positionName = positionName;
@@ -52,11 +52,11 @@ public class Position {
 				+ ", creationDate=" + creationDate + ", modifyBy=" + modifyBy + ", modifyDate=" + modifyDate + "]";
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -68,35 +68,35 @@ public class Position {
 		this.positionName = positionName;
 	}
 
-	public int getPositionArea() {
+	public Integer getPositionArea() {
 		return positionArea;
 	}
 
-	public void setPositionArea(int positionArea) {
+	public void setPositionArea(Integer positionArea) {
 		this.positionArea = positionArea;
 	}
 
-	public int getPositionParts() {
+	public Integer getPositionParts() {
 		return positionParts;
 	}
 
-	public void setPositionParts(int positionParts) {
+	public void setPositionParts(Integer positionParts) {
 		this.positionParts = positionParts;
 	}
 
-	public int getPositionStatus() {
+	public Integer getPositionStatus() {
 		return positionStatus;
 	}
 
-	public void setPositionStatus(int positionStatus) {
+	public void setPositionStatus(Integer positionStatus) {
 		this.positionStatus = positionStatus;
 	}
 
-	public int getCreatedBy() {
+	public Integer getCreatedBy() {
 		return createdBy;
 	}
 
-	public void setCreatedBy(int createdBy) {
+	public void setCreatedBy(Integer createdBy) {
 		this.createdBy = createdBy;
 	}
 
@@ -108,11 +108,11 @@ public class Position {
 		this.creationDate = creationDate;
 	}
 
-	public int getModifyBy() {
+	public Integer getModifyBy() {
 		return modifyBy;
 	}
 
-	public void setModifyBy(int modifyBy) {
+	public void setModifyBy(Integer modifyBy) {
 		this.modifyBy = modifyBy;
 	}
 

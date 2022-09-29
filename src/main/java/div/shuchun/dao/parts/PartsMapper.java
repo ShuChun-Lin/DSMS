@@ -36,4 +36,7 @@ public interface PartsMapper {
 	
 	// delete partsInst
 	int deletePartsInst(PartsInst partsInst);
+	
+	// partsInst data counts with positionId
+	int getRowCountOfPartsInstByPositionId(@Param("positionId") Integer positionId);
 }

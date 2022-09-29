@@ -72,4 +72,56 @@ public class PositionServiceImpl implements PositionService {
 		return searchAreaPositionJsonList;
 	}
 
+	@Override
+	public boolean addPosition(Position position) {
+		// check positionName if exist in the area
+		if (positionMapper.getRowCountOfPositionNameInArea(position.getPositionName(), position.getPositionArea()) > 0) {
+			System.out.println("positionName already exist! can not create this positionName again");
+			return false;
+		}
+		if (positionMapper.addPosition(position) != 1) {
+			System.out.println("add position name: " + position.getPositionName() + " -> fail");
+			return false;
+		}
+		System.out.println("add position name: " + position.getPositionName() + " -> success");
+		return true;
+	}
+
+	@Override
+	public boolean deletePosition(String positionName, String positionArea) {
+		// get position id
+		Integer positionId = getPositionId(Integer.parseInt(positionArea), positionName);
+		if (positionId == null || positionId < 1) {
+			System.out.println("刪除失敗，找不到該儲位ID");
+			return false;
+		}
+		
+		// check partsInst table is exist this position id (if it exists) the position can not be delete
+		if (partsMapper.getRowCountOfPartsInstByPositionId(positionId) > 0) {
+			System.out.println("刪除失敗，儲位ID使用中");
+			return false;
+		}
+		
+		// delete position
+		if (positionMapper.deletePosition(positionId) != 1) {
+			System.out.println("刪除失敗，刪除異常");
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public Integer getPositionId(Integer positionArea, String positionName) {
+		return positionMapper.getPositionId(positionArea, positionName);
+	}
+
+	@Override
+	public boolean updatePosition(Position position) {
+		if (positionMapper.updatePosition(position) != 1) {
+			System.out.println("修改失敗，修改異常");
+			return false;
+		}
+		return true;
+	}
+
 }

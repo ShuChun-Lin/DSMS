@@ -27,4 +27,39 @@
 			</where>
 	</select>
 	
+	<select id="getRowCountOfPositionNameInArea" resultType="_int">
+		select count(`positionName`) from `dsms_position` 
+		where `positionName` = #{positionName}
+		and `positionArea` = #{positionArea}
+	</select>
+	
+	<select id="getPositionId" resultType="int">
+		select `id` from `dsms_position` 
+		where `positionArea` = #{positionArea} 
+		and `positionName` = #{positionName};
+	</select>
+	
+	<insert	id="addPosition" parameterType="position">
+		insert into `dsms_position` 
+		values (#{position.id}, #{position.positionName}, #{position.positionArea},
+				#{position.positionParts}, #{position.positionStatus}, #{position.createdBy},
+				#{position.creationDate}, #{position.modifyBy}, #{position.modifyDate})
+	</insert>
+	
+	<delete id="deletePosition" parameterType="int">
+		delete from `dsms_position` where `id` = #{positionId}
+	</delete>
+	
+	<update id="updatePosition" parameterType="position">
+		update `dsms_position`
+		<set>
+			<if test="position.positionName != null and position.positionName != ''">`positionName` = #{position.positionName},</if>
+			<if test="position.positionParts != null and position.positionParts != ''">`positionParts` = #{position.positionParts},</if>
+			<if test="position.positionStatus != null and position.positionStatus != ''">`positionStatus` = #{position.positionStatus},</if>
+		</set>
+			, `modifyBy` = #{position.modifyBy},
+			`modifyDate` = #{position.modifyDate}
+		where `id` = #{position.id}
+	</update>
+	
 </mapper>

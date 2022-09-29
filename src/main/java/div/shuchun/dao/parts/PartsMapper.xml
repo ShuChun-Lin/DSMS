@@ -44,7 +44,8 @@
 	</select>
 		
 	<insert id="addPartsInst" parameterType="partsInst">
-		insert into `dsms_partsinst` value (#{partsInst.id}, #{partsInst.quantity}, 
+		insert into `dsms_partsinst` 
+		value (#{partsInst.id}, #{partsInst.quantity}, 
 		#{partsInst.snCode}, #{partsInst.partsId}, 
 		#{partsInst.statusId}, #{partsInst.positionId});
 	</insert>
@@ -71,5 +72,9 @@
 	<delete id="deletePartsInst" parameterType="partsInst">
 		delete from `dsms_partsinst` where `id` = #{id};
 	</delete>
+	
+	<select id="getRowCountOfPartsInstByPositionId" resultType="_int">
+		select count(`positionId`) from `dsms_partsinst` where `positionId` = #{positionId};
+	</select>
 
 </mapper>

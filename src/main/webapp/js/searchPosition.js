@@ -32,8 +32,8 @@ $(document).ready(function () {
             		for (let i=0; i<data.length; i++) {
             			areaName = data[i].areaName;
             			areaDesc = data[i].areaDesc;
-            			console.log('data[i]: ' + data[i]);
-            			console.log('data[' + i + '].areaName: ' + data[i].areaName);
+
+            			// console.log('data[' + i + '].areaName: ' + data[i].areaName);
             			
             			$("#areaList").append('<a class="list-group-item list-group-item-action" onclick="openPositionList(this)"></a>');
             			$("#areaList")[0].children[i].text = areaName + " (" + areaDesc + ")";
@@ -47,6 +47,11 @@ $(document).ready(function () {
 	});
 	
 	$("#addAreaBtn").click(function() {
+		if ($("#addAreaName").val() === null || $("#addAreaName").val() === "") {
+			alert("請輸入儲區名稱");
+			return;
+		}
+		
 		var currentTimeStamp = Date.now();
 		
 		$.ajax({
@@ -78,6 +83,90 @@ $(document).ready(function () {
         });
 		$("#searchArea").click();
 	});
+	
+	$("#addPositionBtn").click(function() {
+		if ($("#addPositionName").val() === null || $("#addPositionName").val() === "") {
+			alert("請輸入儲位名稱");
+			return;
+		}
+		
+		var currentTimeStamp = Date.now();
+		var thisArea = $("#areaId").val();
+		
+		$.ajax({
+        	type: "POST",
+        	url:"/DSMS/addPosition.do",
+            data: {
+            	"positionName": $("#addPositionName").val(),
+            	"partsCode": $("#addPartsCode").val(),
+            	"positionStatus": $("#addPositionStatus").val(),
+            	"creationDate": currentTimeStamp,
+            	"positionArea": thisArea
+            },
+
+            success: function (data) {
+            	// 刪除舊資料
+            	$("#addPositionName").val("");
+            	$("#addPositionParts").val("");
+            	
+            	// get warning
+            	if (data.warning != null) {
+            		alert(data.warning);
+            		return;
+            	}
+            	// get data
+            	if (data != null && data != "") {
+            		alert(data.info);
+            		$("#closeAddPositionModal").click();
+            	} else {
+            		alert("發生異常，伺服器無回應");
+            	}
+            }
+        });
+	});
+	
+	$("#updatePositionBtn").click(function() {
+		if ($("#updatePositionName").val() === null || $("#updatePositionName").val() === "") {
+			alert("請輸入儲位名稱");
+			return;
+		}
+		
+		var currentTimeStamp = Date.now();
+		var thisArea = $("#areaId").val();
+		
+		$.ajax({
+        	type: "POST",
+        	url:"/DSMS/updatePosition.do",
+            data: {
+            	"positionName": $("#updatePositionName").val(),
+            	"partsCode": $("#updatePartsCode").val(),
+            	"positionStatus": $("#updatePositionStatus").val(),
+            	"modifyDate": currentTimeStamp,
+            	"positionArea": thisArea
+            },
+
+            success: function (data) {
+            	// 刪除舊資料
+            	$("#addPositionName").val("");
+            	$("#addPositionParts").val("");
+            	
+            	// get warning
+            	if (data.warning != null) {
+            		alert(data.warning);
+            		return;
+            	}
+            	// get data
+            	if (data != null && data != "") {
+            		alert(data.info);
+            		$("#closeUpdatePositionModal").click();
+            	} else {
+            		alert("發生異常，伺服器無回應");
+            	}
+            }
+        });
+	});
+	
+	
 });
 
 function openPositionList(o) {
@@ -129,11 +218,73 @@ function openPositionList(o) {
         	    newTd0.innerText = tPositionName;
         	    newTd1.innerText = tPartsCode;
         	    newTd2.innerText = tStatus;
-        	    newTd3.innerHTML = '<button type="button" class="btn btn-primary">修改</button>';
-        	    newTd4.innerHTML = '<button type="button" class="btn btn-danger">刪除</button>';
+        	    newTd3.innerHTML = '<button type="button" class="btn btn-primary" onclick="openUpdatePositionModal(this)">修改</button>';
+        	    newTd4.innerHTML = '<button type="button" class="btn btn-danger" onclick="delPosition(this)">刪除</button>';
         	}
         }
 	});
 	// 開啟儲位 list
     $("#toPositionList").click();
+}
+
+function delPosition(o) {
+	var r=confirm("確認刪除該儲位嗎?");
+	if (r==true)
+	{
+//		console.log(o.parentNode.parentNode.children[0].innerText);
+//		console.log($("#areaId").val());
+		var thisRow = o.parentNode.parentNode;
+		
+		$.ajax({
+	    	type: "POST",
+	    	url:"/DSMS/deletePosition.do",
+	        data: {
+	        	"positionArea": $("#areaId").val(),
+	        	"positionName": thisRow.children[0].innerText
+	        },
+	        success: function (data) {
+
+	        	// delete fail
+	        	if (data.warning != null) {
+	        		alert(data.warning);
+	        		return;
+	        	}
+	        	
+	        	// delete success
+	        	if (data.info != null) {
+	        		alert(data.info);
+		        	thisRow.remove();  // 刪除該行
+	        	} else { // delete fail
+	        		alert("server 無回應");
+	        	}
+	        }
+		});
+	}
+}
+
+function openUpdatePositionModal(o) {
+	var thisRow = o.parentNode.parentNode;
+	//console.log(o.parentNode.parentNode.children[0].innerText);
+	if (thisRow.children[0].innerText === "null") {
+		$("#updatePositionName").val("");
+	} else {
+		$("#updatePositionName").val(thisRow.children[0].innerText);
+	}
+	if (thisRow.children[1].innerText === "null") {
+		$("#updatePartsCode").val("");
+	} else {
+		$("#updatePartsCode").val(thisRow.children[1].innerText);
+	}
+	if (thisRow.children[2].innerText === "scrap") {
+		$("#updatePositionStatus").val(2);
+	} else {
+		$("#updatePositionStatus").val(1);
+	}
+	
+	$("#toUpdatePosition").click();
+}
+
+function returnPositionListModal() {
+	var thisPositionListArea = $("#areaId").val();
+	document.getElementById(thisPositionListArea).click();
 }

@@ -17,6 +17,9 @@ public interface PartsService {
 	// get parts data's total count for page
 	int getPartsDataCount(String partsCode);
 	
+	// get parts id by dept
+	Integer getPartsIdByDept(String partsCode, int deptId);
+	
 	// get page info
 	PageSupport getPageSupportImpl(String pageIndex, int totalCount);
 	
@@ -28,4 +31,7 @@ public interface PartsService {
 
 	// export partsInst
 	boolean exportParts(String jsonArrayString, int deptId);
+	
+	// check position id if have partsInst data
+	boolean isPartsInstWithPositionIdExist(Integer positionId);
 }
