@@ -54,4 +54,28 @@ public class AreaServiceImpl implements AreaService {
 		return true;
 	}
 
+	@Override
+	public int deleteAreaById(Integer id) {
+		return areaMapper.deleteAreaById(id);
+	}
+
+	@Override
+	public boolean updateArea(Area area, Integer deptId) {
+		// compare area name
+		if (!area.getAreaName().equals(areaMapper.getAreaNameById(area.getId()))) {
+			// if name has changed
+			// check if any areaName in database is same as the new name which be updated
+			if(isAreaExist(deptId, area.getAreaName())) {
+				return false;    // areaName already be used, do not add
+			}
+		}
+		
+		int result = areaMapper.updateArea(area);
+		if (result < 1) {
+			return false;
+		}
+		
+		return true;
+	}
+
 }

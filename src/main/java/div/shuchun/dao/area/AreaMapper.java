@@ -20,4 +20,14 @@ public interface AreaMapper {
 	
 	// insert a new area
 	int addArea(Area area);
+	
+	// delete a area
+	int deleteAreaById(@Param("id")Integer id);
+	
+	// update a area
+	int updateArea(Area area);
+	
+	// get areaName by areaId
+	String getAreaNameById(@Param("id") Integer id);
+	
 }

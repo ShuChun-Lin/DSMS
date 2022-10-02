@@ -32,5 +32,24 @@
 		values (null, #{areaName}, #{areaDesc}, #{areaDepartment}, 
 				#{createdBy}, #{creationDate}, #{modifyBy}, #{modifyDate});
 	</insert>
+	
+	<delete id="deleteAreaById">
+		delete from `dsms_area` where `id` = #{id}
+	</delete>
+	
+	<update id="updateArea">
+		update `dsms_area`
+		<set>
+			<if test="areaName != null and areaName != ''">`areaName` = #{areaName},</if>
+			<if test="areaDesc != null and areaDesc != ''">`areaDesc` = #{areaDesc},</if>
+		</set>
+			, `modifyBy` = #{modifyBy},
+			`modifyDate` = #{modifyDate}
+		where `id` = #{id}
+	</update>
+	
+	<select id="getAreaNameById" resultType="string">
+		select `areaName` from `dsms_area` where `id` = #{id}
+	</select>
 
 </mapper>

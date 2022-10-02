@@ -33,4 +33,7 @@ public interface PositionMapper {
 	
 	// update position
 	int updatePosition(@Param("position") Position position);
+	
+	// get position by area id
+	List<Position> getPositionByAreaId(@Param("areaId") Integer areaId);
 }

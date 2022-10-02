@@ -14,4 +14,10 @@ public interface AreaService {
 	
 	// add a new area data to database
 	boolean addArea(Area area, Integer deptId);
+	
+	// delete a area
+	int deleteAreaById(Integer id);
+	
+	// update a area
+	boolean updateArea(Area area, Integer deptId);
 }

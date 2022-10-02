@@ -124,4 +124,9 @@ public class PositionServiceImpl implements PositionService {
 		return true;
 	}
 
+	@Override
+	public List<Position> getPositionByAreaId(Integer areaId) {
+		return positionMapper.getPositionByAreaId(areaId);
+	}
+
 }

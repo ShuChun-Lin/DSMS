@@ -42,7 +42,7 @@
 							</div>
 						</div>
 						<div class="row mt-3">
-							<div class="col-12"><button type="button" data-bs-toggle="modal" data-bs-target="#toAddAreaModal" class="btn btn-success">新增儲區</button></div>
+							<div class="col-12"><button type="button" data-bs-toggle="modal" data-bs-target="#toAddAreaModal" class="btn btn-success" id="openAddAreaModel">新增儲區</button></div>
 						</div>
 					</form>
                 </div>
@@ -66,7 +66,7 @@
       <%-- 框頭部 --%>
       <div class="modal-header">
         <h4 class="modal-title" id="modal-title">儲位清單</h4>
-        <button class="btn btn-primary" style="margin-left: 3px" id="updateArea">修改儲區</button>
+        <button data-bs-toggle="modal" data-bs-target="#toAddAreaModal" class="btn btn-primary" style="margin-left: 3px" id="openUpdateAreaModel">修改儲區</button>
         <button class="btn btn-danger" style="margin-left: 3px" id="deleteArea">刪除儲區</button>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
@@ -88,7 +88,7 @@
  
       <%-- 框底部 --%>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">關閉</button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="closePositionListModal">關閉</button>
       </div>
  
     </div>
@@ -102,7 +102,7 @@
  
       <%-- 框頭部 --%>
       <div class="modal-header">
-        <h4 class="modal-title" id="modal-title">新增儲區</h4>
+        <h4 class="modal-title" id="areaModal-title">新增儲區</h4>
         <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
       </div>
  
@@ -116,7 +116,7 @@
  
       <%-- 框底部 --%>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">關閉</button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" id="closeAddAreaModal">關閉</button>
       </div>
  
     </div>

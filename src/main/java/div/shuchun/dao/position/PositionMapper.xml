@@ -62,4 +62,8 @@
 		where `id` = #{position.id}
 	</update>
 	
+	<select id="getPositionByAreaId" resultType="position">
+		select * from `dsms_position` where `positionArea` = #{areaId}
+	</select>
+	
 </mapper>

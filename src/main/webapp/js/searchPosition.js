@@ -52,12 +52,25 @@ $(document).ready(function () {
 			return;
 		}
 		
+		// 判斷是新增還是修改
+		var doWhat = null;
+		var areaId = null;
+		if ($("#addAreaBtn").text() === "新增") {
+			console.log("do addAreaBtn");
+			dowhat = "addArea.do";
+		} else {
+			console.log("do updateAreaBtn");
+			dowhat = "updateArea.do";
+			areaId = $("#areaId").val()
+		}
+		
 		var currentTimeStamp = Date.now();
 		
 		$.ajax({
         	type: "POST",
-        	url:"/DSMS/addArea.do",
+        	url:"/DSMS/" + dowhat,
             data: {
+            	"areaId": areaId,
             	"areaName": $("#addAreaName").val(),
             	"areaDesc": $("#addAreaDesc").val(),
             	"creationDate": currentTimeStamp
@@ -76,12 +89,13 @@ $(document).ready(function () {
             	// get data
             	if (data != null && data != "") {
             		alert(data.info);
+            		$("#closeAddAreaModal").click();
+            		$("#searchArea").click();
             	} else {
             		alert("發生異常，伺服器無回應");
             	}
             }
         });
-		$("#searchArea").click();
 	});
 	
 	$("#addPositionBtn").click(function() {
@@ -166,6 +180,57 @@ $(document).ready(function () {
         });
 	});
 	
+	$("#deleteArea").click(function() {
+		
+		var r=confirm("確認刪除該儲區嗎?");
+		if (r==true)
+		{
+			$.ajax({
+		    	type: "POST",
+		    	url:"/DSMS/deleteArea.do",
+		        data: {
+		        	"areaId": $("#areaId").val()
+		        },
+		        success: function (data) {
+
+		        	// delete fail
+		        	if (data.warning != null) {
+		        		alert(data.warning);
+		        		return;
+		        	}
+		        	
+		        	// delete success
+		        	if (data.info != null) {
+		        		alert(data.info);
+		        		$("#searchArea").click();  // 刷新儲區
+		        		$("#closePositionListModal").click();  // 關閉儲位清單
+		        	} else { // delete fail
+		        		alert("server 無回應");
+		        	}
+		        }
+			});
+		}
+	});
+	
+	$("#openAddAreaModel").click(function() {
+		$("#areaModal-title").text("新增儲區");
+		$("#addAreaName").val("");
+		$("#addAreaDesc").val("");
+		$("#addAreaBtn").text("新增");
+	});
+	
+	$("#openUpdateAreaModel").click(function() {
+		$("#areaModal-title").text("修改儲區");
+		var id = $("#areaId").val();
+		var areaId = '#' + id;
+		var str = $(areaId).text();
+		var strName = str.slice(0,str.indexOf('(')-1);
+		var strDesc = str.slice(str.indexOf('(')+1,str.indexOf(')'));
+		
+		$("#addAreaName").val(strName);
+		$("#addAreaDesc").val(strDesc);
+		$("#addAreaBtn").text("修改");
+	});
 	
 });
 
@@ -189,6 +254,9 @@ function openPositionList(o) {
         	for (let i=1; i<originRowsLength; i++) {
     			$("#areaPositionTable")[0].deleteRow(1);
     		}
+        	
+        	// 寫入目前開啟的 areaId
+        	$("#areaId").val(o.id);
 
         	// get warning
         	if (data[0].warning != null) {
@@ -197,7 +265,6 @@ function openPositionList(o) {
         	}
         	
             // 寫入新資料
-        	$("#areaId").val(o.id);
             $("#existPosition").text("");
             var tPositionName;
         	var tPartsCode;

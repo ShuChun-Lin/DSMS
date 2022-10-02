@@ -24,4 +24,7 @@ public interface PositionService {
 	
 	// update position
 	boolean updatePosition(Position position);
+	
+	// get position by area id
+	List<Position> getPositionByAreaId(Integer areaId);
 }
