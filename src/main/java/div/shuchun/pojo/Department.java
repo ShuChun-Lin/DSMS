@@ -5,8 +5,7 @@ import java.util.Date;
 public class Department {
 	
 	private int id;
-	private String fab;
-	private String department;
+	private String fabDept;
 	private int createdBy;
 	private Date creationDate;
 	private int modifyBy;
@@ -16,12 +15,10 @@ public class Department {
 		super();
 	}
 
-	public Department(int id, String fab, String department, int createdBy, Date creationDate, int modifyBy,
-			Date modifyDate) {
+	public Department(int id, String fabDept, int createdBy, Date creationDate, int modifyBy, Date modifyDate) {
 		super();
 		this.id = id;
-		this.fab = fab;
-		this.department = department;
+		this.fabDept = fabDept;
 		this.createdBy = createdBy;
 		this.creationDate = creationDate;
 		this.modifyBy = modifyBy;
@@ -30,7 +27,7 @@ public class Department {
 
 	@Override
 	public String toString() {
-		return "Department [id=" + id + ", fab=" + fab + ", department=" + department + ", createdBy=" + createdBy
+		return "Department [id=" + id + ", fabDept=" + fabDept + ", createdBy=" + createdBy
 				+ ", creationDate=" + creationDate + ", modifyBy=" + modifyBy + ", modifyDate=" + modifyDate + "]";
 	}
 
@@ -42,20 +39,12 @@ public class Department {
 		this.id = id;
 	}
 
-	public String getFab() {
-		return fab;
+	public String getFabDept() {
+		return fabDept;
 	}
 
-	public void setFab(String fab) {
-		this.fab = fab;
-	}
-
-	public String getDepartment() {
-		return department;
-	}
-
-	public void setDepartment(String department) {
-		this.department = department;
+	public void setFabDept(String fabDept) {
+		this.fabDept = fabDept;
 	}
 
 	public int getCreatedBy() {
@@ -90,4 +79,5 @@ public class Department {
 		this.modifyDate = modifyDate;
 	}
 
+	
 }

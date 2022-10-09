@@ -35,7 +35,15 @@
 	
 	<bean id="areaServiceImpl" class="div.shuchun.service.area.AreaServiceImpl">
 		<property name="areaMapper" ref="areaMapper"/>
-	</bean>    
+	</bean>
+	
+	<bean id="roleServiceImpl" class="div.shuchun.service.role.RoleServiceImpl">
+		<property name="roleMapper" ref="roleMapper"/>
+	</bean>  
+	
+	<bean id="departmentServiceImpl" class="div.shuchun.service.dept.DepartmentServiceImpl">
+		<property name="departmentMapper" ref="departmentMapper"/>
+	</bean> 
 	    
 	    
 	    

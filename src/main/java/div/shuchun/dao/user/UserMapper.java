@@ -12,6 +12,23 @@ public interface UserMapper {
 	User getLoginUser(@Param("userCode") String userCode);
 	
 	// get all user list
-	List<User> getAllUserList();
+	List<User> getAllUserList(@Param("userName") String userName,
+			@Param("roleId") Integer roleId,
+			@Param("deptId") Integer deptId);
+	
+	// delete user by id
+	Integer deleteUserById(@Param("id") Integer id);
+	
+	// get user by id
+	User getUserById(@Param("id") Integer id);
+	
+	// update a user
+	int updateUser(User user);
+	
+	// insert a new user
+	int addUser(User user);
+	
+	// get user by userId
+	User getUserByUserId(@Param("userId") String userId);
 	
 }

@@ -4,19 +4,19 @@ import java.util.Date;
 
 public class Role {
 
-	private int id;
+	private Integer id;
 	private String roleCode;
 	private String roleName;
-	private int createdBy;
+	private Integer createdBy;
 	private Date creationDate;
-	private int modifyBy;
+	private Integer modifyBy;
 	private Date modifyDate;
 	
 	public Role() {
 		super();
 	}
 
-	public Role(int id, String roleCode, String roleName, int createdBy, Date creationDate, int modifyBy,
+	public Role(Integer id, String roleCode, String roleName, Integer createdBy, Date creationDate, Integer modifyBy,
 			Date modifyDate) {
 		super();
 		this.id = id;
@@ -34,11 +34,11 @@ public class Role {
 				+ ", creationDate=" + creationDate + ", modifyBy=" + modifyBy + ", modifyDate=" + modifyDate + "]";
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -58,11 +58,11 @@ public class Role {
 		this.roleName = roleName;
 	}
 
-	public int getCreatedBy() {
+	public Integer getCreatedBy() {
 		return createdBy;
 	}
 
-	public void setCreatedBy(int createdBy) {
+	public void setCreatedBy(Integer createdBy) {
 		this.createdBy = createdBy;
 	}
 
@@ -74,11 +74,11 @@ public class Role {
 		this.creationDate = creationDate;
 	}
 
-	public int getModifyBy() {
+	public Integer getModifyBy() {
 		return modifyBy;
 	}
 
-	public void setModifyBy(int modifyBy) {
+	public void setModifyBy(Integer modifyBy) {
 		this.modifyBy = modifyBy;
 	}
 

@@ -9,7 +9,54 @@
 	</select>
 
 	<select id="getAllUserList" resultType="user">
-		select * from `dsms_user`
+		select u.id, u.userCode, u.userName, u.userId, u.userDepartment, u.userRole, 
+			   r.roleName as userDepartmentName, `fab/dept` as userRoleName 
+		from `dsms_user` as u
+		left join `dsms_role` as r
+		on u.userRole = r.id
+		left join `dsms_department` as d
+		on u.userDepartment = d.id
+		<where>
+			<if test="userName != null and userName != ''">u.userName like "%"#{userName}"%"</if>
+			<if test="roleId != null and roleId != ''">and u.userRole = #{roleId}</if>
+			<if test="deptId != null and deptId != ''">and u.userDepartment = #{deptId}</if>
+		</where>
+	</select>
+	
+	<delete id="deleteUserById" parameterType="int">
+		delete from `dsms_user` where `id` = #{id}
+	</delete>
+	
+	<select id="getUserById" resultType="user">
+		select * from `dsms_user` where `id` = #{id}
+	</select>
+	
+	<update id="updateUser" parameterType="user">
+		update `dsms_user`
+		<set>
+			<if test="userCode != null and userCode != ''">`userCode` = #{userCode},</if>
+			<if test="userName != null and userName != ''">`userName` = #{userName},</if>
+			<if test="userId != null and userId != ''">`userId` = #{userId},</if>
+			<if test="userDepartment != null and userDepartment != ''">`userDepartment` = #{userDepartment},</if>
+			<if test="userRole != null and userRole != ''">`userRole` = #{userRole},</if>
+		</set>
+			, `modifyBy` = #{modifyBy},
+			`modifyDate` = #{modifyDate}
+		where `id` = #{id}
+	</update>
+	
+	<insert id="addUser" parameterType="user">
+		insert into `dsms_user`
+		(`id`,`userCode`, `userName`, `userPassword`, `userId`,
+		`userDepartment`, `userRole`, `createdBy`, `creationDate`,
+		`modifyBy`, `modifyDate`)
+		values (null, #{userCode}, #{userName}, #{userPassword},
+				#{userId}, #{userDepartment}, #{userRole},
+				#{createdBy}, #{creationDate}, #{modifyBy}, #{modifyDate});
+	</insert>
+	
+	<select id="getUserByUserId" resultType="user">
+		select * from `dsms_user` where `userId` = #{userId}
 	</select>
 	
 </mapper>

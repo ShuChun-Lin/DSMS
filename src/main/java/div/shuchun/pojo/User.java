@@ -4,24 +4,28 @@ import java.util.Date;
 
 public class User {
 
-	private int id;
+	private Integer id;
 	private String userCode;
 	private String userName;
 	private String userPassword;
 	private String userId;
-	private int userDepartment;
-	private int userRole;
-	private int createdBy;
+	private Integer userDepartment;
+	private Integer userRole;
+	private Integer createdBy;
 	private Date creationDate;
-	private int modifyBy;
+	private Integer modifyBy;
 	private Date modifyDate;
+	
+	private String userDepartmentName;
+	private String userRoleName;
 	
 	public User() {
 		super();
 	}
 
-	public User(int id, String userCode, String userName, String userPassword, String userId, int userDepartment,
-			int userRole, int createdBy, Date creationDate, int modifyBy, Date modifyDate) {
+	public User(Integer id, String userCode, String userName, String userPassword, String userId,
+			Integer userDepartment, Integer userRole, Integer createdBy, Date creationDate, Integer modifyBy,
+			Date modifyDate, String userDepartmentName, String userRoleName) {
 		super();
 		this.id = id;
 		this.userCode = userCode;
@@ -34,6 +38,8 @@ public class User {
 		this.creationDate = creationDate;
 		this.modifyBy = modifyBy;
 		this.modifyDate = modifyDate;
+		this.userDepartmentName = userDepartmentName;
+		this.userRoleName = userRoleName;
 	}
 
 	@Override
@@ -41,14 +47,30 @@ public class User {
 		return "User [id=" + id + ", userCode=" + userCode + ", userName=" + userName + ", userPassword=" + userPassword
 				+ ", userId=" + userId + ", userDepartment=" + userDepartment + ", userRole=" + userRole
 				+ ", createdBy=" + createdBy + ", creationDate=" + creationDate + ", modifyBy=" + modifyBy
-				+ ", modifyDate=" + modifyDate + "]";
+				+ ", modifyDate=" + modifyDate + ", userDepartmentName=" + userDepartmentName + ", userRoleName="
+				+ userRoleName + "]";
+	}
+	
+	public String toStringAsJson() {
+		return "{\"id\":\"" + id + "\"," +
+				"\"userCode\":\"" + userCode + "\"," +
+				"\"userName\":\"" + userName + "\"," +
+				"\"userId\":\"" + userId + "\"," +
+				"\"userDepartment\":\"" + userDepartment + "\"," +
+				"\"userRole\":\"" + userRole + "\"," +
+				"\"createdBy\":\"" + createdBy + "\"," +
+				"\"creationDate\":\"" + creationDate + "\"," +
+				"\"modifyBy\":\"" + modifyBy + "\"," +
+				"\"modifyDate\":\"" + modifyDate + "\"," +
+				"\"userDepartmentName\":\"" + userDepartmentName + "\"," +
+				"\"userRoleName\":\"" + userRoleName + "\"}";
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -84,27 +106,27 @@ public class User {
 		this.userId = userId;
 	}
 
-	public int getUserDepartment() {
+	public Integer getUserDepartment() {
 		return userDepartment;
 	}
 
-	public void setUserDepartment(int userDepartment) {
+	public void setUserDepartment(Integer userDepartment) {
 		this.userDepartment = userDepartment;
 	}
 
-	public int getUserRole() {
+	public Integer getUserRole() {
 		return userRole;
 	}
 
-	public void setUserRole(int userRole) {
+	public void setUserRole(Integer userRole) {
 		this.userRole = userRole;
 	}
 
-	public int getCreatedBy() {
+	public Integer getCreatedBy() {
 		return createdBy;
 	}
 
-	public void setCreatedBy(int createdBy) {
+	public void setCreatedBy(Integer createdBy) {
 		this.createdBy = createdBy;
 	}
 
@@ -116,11 +138,11 @@ public class User {
 		this.creationDate = creationDate;
 	}
 
-	public int getModifyBy() {
+	public Integer getModifyBy() {
 		return modifyBy;
 	}
 
-	public void setModifyBy(int modifyBy) {
+	public void setModifyBy(Integer modifyBy) {
 		this.modifyBy = modifyBy;
 	}
 
@@ -131,5 +153,22 @@ public class User {
 	public void setModifyDate(Date modifyDate) {
 		this.modifyDate = modifyDate;
 	}
+
+	public String getUserDepartmentName() {
+		return userDepartmentName;
+	}
+
+	public void setUserDepartmentName(String userDepartmentName) {
+		this.userDepartmentName = userDepartmentName;
+	}
+
+	public String getUserRoleName() {
+		return userRoleName;
+	}
+
+	public void setUserRoleName(String userRoleName) {
+		this.userRoleName = userRoleName;
+	}
+
 	
 }

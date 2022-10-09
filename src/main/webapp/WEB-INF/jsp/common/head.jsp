@@ -72,6 +72,8 @@
                             background-color: rgb(110, 132, 211);
                             color: white;
                         }
+                        
+                        
                     </style>
                 </head>
 
@@ -137,7 +139,7 @@
                                             </div>
                                         </a>
                                         <a id="collapseThree" class="collapse btn" data-bs-parent="#accordion"
-                                            href="#">
+                                            href="${pageContext.request.contextPath}/toUserListPage">
                                             <div class="card-body">
                                                 人員
                                             </div>
