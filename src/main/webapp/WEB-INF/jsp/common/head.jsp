@@ -145,7 +145,7 @@
                                             </div>
                                         </a>
                                         <a id="collapseThree" class="collapse btn" data-bs-parent="#accordion"
-                                            href="#">
+                                            href="${pageContext.request.contextPath}/toPartsListPage">
                                             <div class="card-body">
                                                 物料
                                             </div>

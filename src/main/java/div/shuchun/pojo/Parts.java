@@ -4,17 +4,17 @@ import java.util.Date;
 
 public class Parts {
 
-	private int id;
+	private Integer id;
 	private String partsCode;
 	private String partsName;
-	private int partsDepartment;
-	private int createdBy;
+	private Integer partsDepartment;
+	private Integer createdBy;
 	private Date creationDate;
-	private int modifyBy;
+	private Integer modifyBy;
 	private Date modifyDate;
 	
 	private String partsDeptName;
-	private int partsCount;
+	private Integer partsCount;
 	
 	
 	public Parts() {
@@ -22,8 +22,8 @@ public class Parts {
 	}
 	
 
-	public Parts(int id, String partsCode, String partsName, int partsDepartment, int createdBy, Date creationDate,
-			int modifyBy, Date modifyDate, String partsDeptName, int partsCount) {
+	public Parts(Integer id, String partsCode, String partsName, Integer partsDepartment, Integer createdBy, Date creationDate,
+			Integer modifyBy, Date modifyDate, String partsDeptName, Integer partsCount) {
 		super();
 		this.id = id;
 		this.partsCode = partsCode;
@@ -44,6 +44,19 @@ public class Parts {
 				+ modifyBy + ", modifyDate=" + modifyDate + ", partsDeptName=" + partsDeptName + ", partsCount="
 				+ partsCount + "]";
 	}
+	
+	public String toJsonString() {
+		return "{\"id\":\"" + id + "\"," +
+				"\"partsCode\":\"" + partsCode + "\"," +
+				"\"partsName\":\"" + partsName + "\"," +
+				"\"partsDepartment\":\"" + partsDepartment + "\"," +
+				"\"createdBy\":\"" + createdBy + "\"," +
+				"\"creationDate\":\"" + creationDate + "\"," +
+				"\"modifyBy\":\"" + modifyBy + "\"," +
+				"\"modifyDate\":\"" + modifyDate + "\"," +
+				"\"partsDeptName\":\"" + partsDeptName + "\"," +
+				"\"partsCount\":\"" + partsCount + "\"}";
+	}
 
 
 	public String getPartsDeptName() {
@@ -54,19 +67,19 @@ public class Parts {
 		this.partsDeptName = partsDeptName;
 	}
 
-	public int getPartsCount() {
+	public Integer getPartsCount() {
 		return partsCount;
 	}
 
-	public void setPartsCount(int partsCount) {
+	public void setPartsCount(Integer partsCount) {
 		this.partsCount = partsCount;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -86,19 +99,19 @@ public class Parts {
 		this.partsName = partsName;
 	}
 
-	public int getPartsDepartment() {
+	public Integer getPartsDepartment() {
 		return partsDepartment;
 	}
 
-	public void setPartsDepartment(int partsDepartment) {
+	public void setPartsDepartment(Integer partsDepartment) {
 		this.partsDepartment = partsDepartment;
 	}
 
-	public int getCreatedBy() {
+	public Integer getCreatedBy() {
 		return createdBy;
 	}
 
-	public void setCreatedBy(int createdBy) {
+	public void setCreatedBy(Integer createdBy) {
 		this.createdBy = createdBy;
 	}
 
@@ -110,11 +123,11 @@ public class Parts {
 		this.creationDate = creationDate;
 	}
 
-	public int getModifyBy() {
+	public Integer getModifyBy() {
 		return modifyBy;
 	}
 
-	public void setModifyBy(int modifyBy) {
+	public void setModifyBy(Integer modifyBy) {
 		this.modifyBy = modifyBy;
 	}
 

@@ -27,7 +27,10 @@
 		select count(*) from `dsms_parts` as p 
 		left join `dsms_department` as d 
 		on p.partsDepartment = d.id 
-		where `partsCode` = #{partsCode};
+		<where>
+			<if test="partsCode != null and partsCode != ''">`partsCode` = #{partsCode}</if>
+			<if test="deptId != null and deptId != ''">and d.id = #{deptId}</if>
+		</where>
 	</select>
 	
 	<select id="getPartsIdByDept" resultType="int">
@@ -76,5 +79,43 @@
 	<select id="getRowCountOfPartsInstByPositionId" resultType="_int">
 		select count(`positionId`) from `dsms_partsinst` where `positionId` = #{positionId};
 	</select>
+	
+	<select id="getAllPartsList" resultType="parts">
+		select p.id, partsCode, partsName, partsDepartment, `fab/dept` as 'partsDeptName'
+		from `dsms_parts` as p 
+		left join `dsms_department` as d 
+		on p.partsDepartment = d.id 
+		<where>
+			<if test="partsCode != null and partsCode != ''">`partsCode` = #{partsCode}</if>
+			<if test="deptId != null and deptId != ''">and d.id = #{deptId}</if>
+		</where>
+		limit #{startIndex} , #{pageSize}
+	</select>
 
+	<select id="getPartsById" resultType="parts">
+		select * from `dsms_parts` where `id` = #{id}
+	</select>
+	
+	<delete id="deletePartsById">
+		delete from `dsms_parts` where `id` = #{id}
+	</delete>
+	
+	<update id="updateParts" parameterType="parts">
+		update `dsms_parts`
+		<set>
+			<if test="partsName != null and partsName != ''">`partsName` = #{partsName},</if>
+			`modifyBy` = #{modifyBy},
+			`modifyDate` = #{modifyDate}
+		</set>
+		where `id` = #{id}
+		
+	</update>
+	
+	<insert id="addParts" parameterType="parts">
+		insert into `dsms_parts` 
+		(`id`, `partsCode`, `partsName`, `partsDepartment`, `createdBy`, `creationDate`,
+			`modifyBy`, `modifyDate`) 
+		values ( #{id}, #{partsCode}, #{partsName}, #{partsDepartment}, #{createdBy}, #{creationDate},
+			#{modifyBy}, #{modifyDate})
+	</insert>
 </mapper>

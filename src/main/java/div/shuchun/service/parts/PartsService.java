@@ -15,7 +15,7 @@ public interface PartsService {
 	int getPartsCountById(int id);
 	
 	// get parts data's total count for page
-	int getPartsDataCount(String partsCode);
+	int getPartsDataCount(String partsCode, Integer deptId);
 	
 	// get parts id by dept
 	Integer getPartsIdByDept(String partsCode, int deptId);
@@ -34,4 +34,19 @@ public interface PartsService {
 	
 	// check position id if have partsInst data
 	boolean isPartsInstWithPositionIdExist(Integer positionId);
+	
+	// get all parts list
+	List<Parts> getAllPartsList(Integer startIndex, Integer pageSize, String partsCode, Integer deptId);
+	
+	// get part by id
+	Parts getPartsById(Integer id);
+	
+	// delete part by id
+	boolean deletePartsById(Integer id);
+	
+	// update parts
+	boolean updateParts(Parts parts);
+	
+	// insert parts
+	boolean addParts(Parts parts);
 }

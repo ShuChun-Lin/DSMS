@@ -10,14 +10,14 @@ import div.shuchun.pojo.SearchExportObj;
 
 public interface PartsMapper {
 
-	// get parts list by partsCode
+	// get parts list by partsCode (have page)
 	List<Parts> getPartsListByCode(@Param("partsCode") String partsCode, @Param("startIndex") int startIndex, @Param("pageSize") int pageSize);
 	
 	// get parts instantiation count by partsId
 	List<Integer> getPartsCountById(@Param("id") int id);
 	
 	// get parts data's total count for page
-	int getPartsDataCount(@Param("partsCode") String partsCode);
+	int getPartsDataCount(@Param("partsCode") String partsCode, @Param("deptId") Integer deptId);
 	
 	// get parts id by dept
 	Integer getPartsIdByDept(@Param("partsCode") String partsCode, @Param("deptId") int deptId);
@@ -39,4 +39,22 @@ public interface PartsMapper {
 	
 	// partsInst data counts with positionId
 	int getRowCountOfPartsInstByPositionId(@Param("positionId") Integer positionId);
+	
+	// get all parts list
+	List<Parts> getAllPartsList(@Param("startIndex") Integer startIndex,
+					@Param("pageSize") Integer pageSize,
+					@Param("partsCode") String partsCode,
+					@Param("deptId") Integer deptId);
+	
+	// get part by id
+	Parts getPartsById(@Param("id") Integer id);
+	
+	// delete part by id
+	int deletePartsById(@Param("id") Integer id);
+	
+	// update parts
+	int updateParts(Parts parts);
+	
+	// insert parts
+	int addParts(Parts parts);
 }

@@ -54,8 +54,8 @@ public class PartsServiceImpl implements PartsService {
 	}
 
 	@Override
-	public int getPartsDataCount(String partsCode) {
-		return partsMapper.getPartsDataCount(partsCode);
+	public int getPartsDataCount(String partsCode, Integer deptId) {
+		return partsMapper.getPartsDataCount(partsCode, deptId);
 	}
 
 	@Override
@@ -213,5 +213,39 @@ public class PartsServiceImpl implements PartsService {
 			return true;
 		}
 		return false;
+	}
+
+	@Override
+	public List<Parts> getAllPartsList(Integer startIndex, Integer pageSize, String partsCode, Integer deptId) {
+		return partsMapper.getAllPartsList(startIndex, pageSize, partsCode, deptId);
+	}
+
+	@Override
+	public Parts getPartsById(Integer id) {
+		return partsMapper.getPartsById(id);
+	}
+
+	@Override
+	public boolean deletePartsById(Integer id) {
+		if (partsMapper.deletePartsById(id) != 1) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean updateParts(Parts parts) {
+		if (partsMapper.updateParts(parts) != 1) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean addParts(Parts parts) {
+		if (partsMapper.addParts(parts) != 1) {
+			return false;
+		}
+		return true;
 	}
 }
