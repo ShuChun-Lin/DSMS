@@ -66,15 +66,27 @@ public class UserController {
 	}
 	
 	@RequestMapping("/toUserListPage")
-	public String toUserListPage(Model model) {
+	public String toUserListPage(HttpServletRequest request, Model model) {
 		List<Role> roleList = roleService.getRoleList();
+
+		// if user's role is not ADMIN, remove the ADMIN from roleList
+		User user = (User) request.getSession().getAttribute(Constants.USER_SESSION);
+		if (user.getUserRole() != 1) {
+			roleList.remove(0);  // remove first element (role: ADMIN)
+		}
 		model.addAttribute("roleList", roleList);
 		
 		List<Department> deptList = departmentService.getDeptList();
 		model.addAttribute("deptList", deptList);
 		System.out.println(deptList);
 		
-		List<User> userList = userService.getAllUserList();
+		// if user's role is not ADMIN, get user only same dept
+		List<User> userList = null;
+		if (user.getUserRole() != 1) {
+			userList = userService.getAllUserList(null, null, user.getUserDepartment());
+		} else {
+			userList = userService.getAllUserList();
+		}
 		model.addAttribute("userList", userList);
 		return "userList";
 	}
@@ -84,11 +96,13 @@ public class UserController {
 	public String deleteUserById(HttpServletRequest request, String uid) {
 		User user = (User) request.getSession().getAttribute(Constants.USER_SESSION);
 		int userId = Integer.parseInt(uid);
-		if (user.getId() == userId) {
+		if (user.getId() == userId) {  // can not delete loginUser self
 			return "{\"delResult\":\"cannotdel\"}";
 		}
-		if (userService.getUserById(userId) == null) {
+		if (userService.getUserById(userId) == null) {  // the user that be deleted is not exist 
 			return "{\"delResult\":\"notexist\"}";
+		} else if (userService.getUserById(userId).getUserRole() == 1 && user.getUserRole() != 1) {
+			return "{\"delResult\":\"cannotdelADMIN\"}";  // loginUser not ADMIN can not delete ADMIN user
 		}
 		if (!userService.deleteUserById(userId)) {
 			return "{\"delResult\":\"false\"}";
@@ -117,7 +131,10 @@ public class UserController {
 		User user = (User) request.getSession().getAttribute(Constants.USER_SESSION);
 		int userId = Integer.parseInt(uid);
 		if (user.getId() == userId) {
-			return "{\"updateUser\":\"cannotUpdate\"}";
+			return "{\"updateUser\":\"cannotUpdate\"}";  // can not update loginUser self
+		}
+		if (userService.getUserById(userId).getUserRole() == 1 && user.getUserRole() != 1) {
+			return "{\"updateUser\":\"cannotUpdateADMIN\"}";  // loginUser not ADMIN can not update ADMIN user
 		}
 		User updateUser = userService.getUserById(userId);
 		
@@ -184,6 +201,11 @@ public class UserController {
 		// userId 工號 不可重複(can not reuse)
 		if (userService.getUserByUserId(addUser.getUserId()) != null) {
 			return "{\"result\":\"useridbeenused\"}";
+		}
+		
+		// userCode 帳號不可重複 (can not reuse)
+		if (userService.getUserByUserCode(addUser.getUserCode()) != null) {
+			return "{\"result\":\"usercodebeenused\"}";
 		}
 		
 		if (userService.addUser(addUser)) {

@@ -29,12 +29,19 @@
 												</c:if>
                                             </select>
                                             <select name="queryUserDept" id="queryUserDept">
-                                            	<c:if test="${deptList != null }">
-						   							<option value="0">-- 部門 --</option>
-						   							<c:forEach var="dept" items="${deptList}">
-						   								<option	value="${dept.id}">${dept.fabDept}</option>
-						   							</c:forEach>
-												</c:if>
+                                            	<c:choose>
+                                            	<c:when test="${userSession.userRole == '1' }">
+                                            		<c:if test="${deptList != null }">
+						   								<option value="0">-- 部門 --</option>
+						   								<c:forEach var="dept" items="${deptList}">
+						   									<option	value="${dept.id}">${dept.fabDept}</option>
+						   								</c:forEach>
+													</c:if>
+                                            	</c:when>
+                                            	<c:otherwise>
+                                            		<option	value="${userSession.userDepartment}">${userSession.userDepartmentName}</option>
+                                            	</c:otherwise>
+                                            	</c:choose>
                                             </select>
                                             
                                             <input type="button" id="searchUser" value="搜尋">
@@ -141,12 +148,19 @@
 		  <div class="form-group">
   			<label for="userDeptName">部門:</label>
   			<select class="form-control" id="userDeptName">
-  				<option value="0">-- 部門 --</option>
-  				<c:if test="${deptList != null }">
-    				<c:forEach var="dept" items="${deptList}">
-						<option	value="${dept.id}">${dept.fabDept}</option>
-					</c:forEach>
-				</c:if>
+  				<c:choose>
+                <c:when test="${userSession.userRole == '1' }">
+                	<c:if test="${deptList != null }">
+						<option value="0">-- 部門 --</option>
+						<c:forEach var="dept" items="${deptList}">
+							<option	value="${dept.id}">${dept.fabDept}</option>
+						</c:forEach>
+					</c:if>
+                </c:when>
+                <c:otherwise>
+                	<option	value="${userSession.userDepartment}">${userSession.userDepartmentName}</option>
+                </c:otherwise>
+                </c:choose>
   			</select>
 		  </div>
 		  <div class="form-group">

@@ -29,4 +29,7 @@ public interface UserService {
 	
 	// get user by userId
 	User getUserByUserId(String userId);
+	
+	// get user by userCode
+	User getUserByUserCode(String userCode);
 }

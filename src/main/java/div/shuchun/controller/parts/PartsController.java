@@ -159,8 +159,17 @@ public class PartsController {
 		model.addAttribute("currentPageNo", pageInfo.getCurrentPageNo());
 		model.addAttribute("totalPageCount", pageInfo.getTotalPageCount());
 		
+		// get user info from session
+		User user = (User) request.getSession().getAttribute(Constants.USER_SESSION);
+		
+		// if user's role is not ADMIN, set deptId
+		Integer deptId = null;
+		if (user.getUserRole() != 1) {
+			deptId = user.getUserDepartment();
+		}
+		
 		int startIndex = pageInfo.getPageSize() * (pageInfo.getCurrentPageNo() - 1);
-		List<Parts> partsList = partsService.getAllPartsList(startIndex, pageInfo.getPageSize(), null, null);
+		List<Parts> partsList = partsService.getAllPartsList(startIndex, pageInfo.getPageSize(), null, deptId);
 		model.addAttribute("partsList", partsList);
 		return "partsList";
 	}

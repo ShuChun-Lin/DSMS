@@ -27,6 +27,10 @@
 			<mvc:exclude-mapping path="/login.do"/>
 			<bean class="div.shuchun.utils.LoginInterceptor"/>
 		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/to*ListPage"/>
+			<bean class="div.shuchun.utils.AdminInterceptor"/>
+		</mvc:interceptor>
 	</mvc:interceptors>
 	
 </beans>

@@ -93,6 +93,8 @@ $(function(){
 					alert("該員工不存在");
 				} else if (data.result == "useridbeenused") {
 					alert("該工號已存在");
+				} else if (data.result == "usercodebeenused") {
+					alert("該帳號已被使用");
 				} else if (data.result == "false") {
 					alert("執行失敗");
 				}
@@ -177,6 +179,8 @@ function inputUserForm(obj) {
 				$("#toUpdateDLG").click();  // 開啟修改框
 			} else if (data.updateUser == "cannotUpdate") {
 				alert("不能修改自己");
+			} else if (data.updateUser == "cannotUpdateADMIN") {
+				alert("權限不足不能修改系統管理員");
 			} else {
 				alert("沒有取得該員工資訊");
 			}
@@ -204,6 +208,8 @@ function deleteUser(obj){
 				alert("對不起，刪除員工【"+obj.attr("username")+"】不存在");
 			}else if(data.delResult == "cannotdel"){
 				alert("對不起，刪除員工【"+obj.attr("username")+"】不能刪除自己");
+			}else if(data.delResult == "cannotdelADMIN"){
+				alert("對不起，刪除員工【"+obj.attr("username")+"】權限不足不能刪除系統管理員");
 			}
 		},
 		error:function(data){

@@ -3,8 +3,7 @@ USE `dsms`;
 
 CREATE TABLE IF NOT EXISTS `dsms_department`(
 	`id` INT NOT NULL AUTO_INCREMENT COMMENT '主鍵id',
-    `fab` VARCHAR(20) NOT NULL COMMENT '廠別',
-    `department` VARCHAR(20) NOT NULL COMMENT '部門',
+    `fab/dept` VARCHAR(20) NOT NULL COMMENT '廠別/部門',
     `createdBy` INT DEFAULT NULL COMMENT '創建者 ( dsms_user - id )',
     `creationDate` DATETIME DEFAULT NULL COMMENT '創建時間',
     `modifyBy` INT DEFAULT NULL COMMENT '更新者 ( dsms_user - id )',
@@ -13,10 +12,10 @@ CREATE TABLE IF NOT EXISTS `dsms_department`(
 )ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 INSERT INTO `dsms_department` VALUES
-('1', 'fab1', 'dept1', '1', '2022-09-05 00:00:00', NULL, NULL),
-('2', 'fab1', 'dept2', '1', '2022-09-05 00:00:00', NULL, NULL),
-('3', 'fab2', 'deptA', '1', '2022-09-05 00:00:00', NULL, NULL),
-('4', 'fab2', 'deptB', '1', '2022-09-05 00:00:00', NULL, NULL);
+('1', 'fab1/dept1', '1', '2022-09-05 00:00:00', NULL, NULL),
+('2', 'fab1/dept2', '1', '2022-09-05 00:00:00', NULL, NULL),
+('3', 'fab2/deptA', '1', '2022-09-05 00:00:00', NULL, NULL),
+('4', 'fab2/deptB', '1', '2022-09-05 00:00:00', NULL, NULL);
 
 CREATE TABLE IF NOT EXISTS `dsms_role`(
 	`id` INT NOT NULL AUTO_INCREMENT COMMENT '主鍵id',
@@ -31,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `dsms_role`(
 
 INSERT INTO `dsms_role` VALUES
 ('1', 'ADMIN', '系统管理員', '1', '2022-09-05 00:00:00', NULL, NULL),
-('2', 'MANAGER', '經理', '1', '2022-09-05 00:00:00', NULL, NULL),
+('2', 'DEPTADMIN', '部門倉管', '1', '2022-09-05 00:00:00', NULL, NULL),
 ('3', 'EMPLOYEE', '普通員工', '1', '2022-09-05 00:00:00', NULL, NULL);
 
 CREATE TABLE IF NOT EXISTS `dsms_user`(
@@ -135,8 +134,8 @@ CREATE TABLE IF NOT EXISTS `dsms_position`(
 	`id` INT NOT NULL AUTO_INCREMENT COMMENT '主鍵id',
     `positionName` VARCHAR(15) NOT NULL COMMENT '儲位名稱',
     `positionArea` INT NOT NULL COMMENT '儲位所屬儲區(取自dsms_area-id)',
-    `positionParts` INT NOT NULL COMMENT '儲區要放置的零件(取自dsms_parts-id)',
-    `positionStatus` INT NOT NULL COMMENT '儲區選擇放置的零件狀態(取自dsms_status-id)',
+    `positionParts` INT DEFAULT NULL COMMENT '儲區要放置的零件(取自dsms_parts-id)',
+    `positionStatus` INT DEFAULT NULL COMMENT '儲區選擇放置的零件狀態(取自dsms_status-id)',
     `createdBy` INT DEFAULT NULL COMMENT '創建者 ( dsms_user - id )',
     `creationDate` DATETIME DEFAULT NULL COMMENT '創建時間',
     `modifyBy` INT DEFAULT NULL COMMENT '更新者 ( dsms_user - id )',
@@ -164,17 +163,25 @@ INSERT INTO `dsms_position` VALUES
 ('17', 'M001', '6', '17', '1', '1', '2022-09-05 00:00:00', NULL, NULL),
 ('18', 'M001', '6', '18', '1', '1', '2022-09-05 00:00:00', NULL, NULL),
 ('19', 'P001', '7', '19', '1', '1', '2022-09-05 00:00:00', NULL, NULL),
-('20', 'P002', '7', '20', '1', '1', '2022-09-05 00:00:00', NULL, NULL);
+('20', 'P002', '7', '20', '1', '1', '2022-09-05 00:00:00', NULL, NULL),
+('21', 'P002', '1', NULL, NULL, '1', '2022-09-05 00:00:00', NULL, NULL),
+('22', 'P002', '1', NULL, NULL, '1', '2022-09-05 00:00:00', NULL, NULL),
+('23', 'P002', '7', NULL, NULL, '1', '2022-09-05 00:00:00', NULL, NULL);
 
 CREATE TABLE IF NOT EXISTS `dsms_partsInst`(
 	`id` INT NOT NULL AUTO_INCREMENT COMMENT '主鍵id',
-    `Quantity` INT NOT NULL COMMENT '零件數量',
+    `quantity` INT NOT NULL COMMENT '零件數量',
     `snCode` VARCHAR(50) DEFAULT NULL COMMENT '零件序號碼',
     `partsId` INT NOT NULL COMMENT '零件id(取自dsms_parts-id)',
     `statusId` INT NOT NULL COMMENT '零件狀態(取自dsms_status-id)',
     `positionId` INT NOT NULL COMMENT '零件儲位(取自dsms_position-id)',
     PRIMARY KEY(`id`)
-)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+)ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT INTO `dsms_partsInst` VALUES
+('1', '3', null, '1', '1', '1'),
+('2', '1', null, '2', '1', '2'),
+('3', '2', null, '6', '1', '6');
 
 CREATE TABLE IF NOT EXISTS `dsms_history`(
 	`id` INT NOT NULL AUTO_INCREMENT COMMENT '主鍵id',

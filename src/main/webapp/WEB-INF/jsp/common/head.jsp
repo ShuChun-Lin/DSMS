@@ -88,7 +88,6 @@
                                 <a class="link" href="${pageContext.request.contextPath}/logout.do">登出</a>
                             </div>
                         </div>
-                        </div>
                     </header>
                     <div class="container-fluid main" style="margin-top:80px">
                         <div class="row">
@@ -132,6 +131,8 @@
                                             </div>
                                         </a>
                                     </div>
+                                    
+                                    <c:if test="${userSession.userRole != '3' }">
                                     <div class="card">
                                         <a class="collapsed btn" data-bs-toggle="collapse" href="#collapseThree">
                                             <div class="card-header">
@@ -151,5 +152,6 @@
                                             </div>
                                         </a>
                                     </div>
+                                    </c:if>
                                 </div>
                             </div>

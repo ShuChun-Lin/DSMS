@@ -5,12 +5,19 @@
 <mapper namespace="div.shuchun.dao.user.UserMapper">
 
 	<select id="getLoginUser" resultType="user">
-		select * from `dsms_user` where `userCode` = #{userCode}
+		select u.id, u.userCode, u.userPassword, u.userName, u.userId, u.userDepartment, u.userRole, 
+			   r.roleName as userRoleName, `fab/dept` as userDepartmentName
+		from `dsms_user` as u
+		left join `dsms_role` as r
+		on u.userRole = r.id
+		left join `dsms_department` as d
+		on u.userDepartment = d.id		
+ 		where `userCode` = #{userCode}
 	</select>
 
 	<select id="getAllUserList" resultType="user">
 		select u.id, u.userCode, u.userName, u.userId, u.userDepartment, u.userRole, 
-			   r.roleName as userDepartmentName, `fab/dept` as userRoleName 
+			   r.roleName as userRoleName, `fab/dept` as userDepartmentName
 		from `dsms_user` as u
 		left join `dsms_role` as r
 		on u.userRole = r.id
