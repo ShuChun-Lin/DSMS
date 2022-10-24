@@ -129,7 +129,7 @@ function judgePageList() {
 		$("#firstPage").hide();
 		$("#previousPage").hide();
 	}
-	if ($("#currentPageNo").val() < $("#totalPageCount").val()) {
+	if (parseInt($("#currentPageNo").val()) < parseInt($("#totalPageCount").val())) {
 		$("#nextPage").show();
 		$("#lastPage").show();
 	} else {
