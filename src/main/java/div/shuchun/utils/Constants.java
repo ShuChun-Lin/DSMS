@@ -1,5 +1,11 @@
 package div.shuchun.utils;
 
+/**
+ * Constants for div.shuchun
+ * 
+ * @author shuchun.lin
+ *
+ */
 public class Constants {
 
 	public final static String USER_SESSION = "userSession";

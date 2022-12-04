@@ -5,7 +5,11 @@
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
   
-      <filter>
+  <filter>
+    <filter-name>HiddenHttpMethodFilter</filter-name>
+    <filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+  </filter>  
+  <filter>
   	<filter-name>encoding</filter-name>
   	<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
   	<init-param>
@@ -14,6 +18,10 @@
   	</init-param>
   </filter>
   
+  <filter-mapping>
+    <filter-name>HiddenHttpMethodFilter</filter-name>
+    <servlet-name>springmvc</servlet-name>    
+  </filter-mapping>
   <filter-mapping>
   	<filter-name>encoding</filter-name>
   	<url-pattern>/*</url-pattern>

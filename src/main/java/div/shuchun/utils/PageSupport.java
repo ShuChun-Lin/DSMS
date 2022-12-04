@@ -1,19 +1,35 @@
 package div.shuchun.utils;
 
+/**
+ * The class {@code PageSupprt} stores all elements
+ * about page.
+ * 
+ * @author shuchun.lin
+ *
+ */
 public class PageSupport {
-	// 當前頁碼 - 來自於用戶輸入
+	
+	/** current page */
 	private int currentPageNo = Constants.DEFAULT_CURRENT_PAGE_NO;
 	
-	// 總數量 (資料庫查詢)
+	/** total counts of data in the database */
 	private int totalCount = 0;
 	
-	// 頁面容量
+	/** size of page */
 	private int pageSize = Constants.PAGE_SIZE;
 	
-	// 總頁數 - totalCount / pageSize (+ 1)
+	/** counts of total pages */
 	private int totalPageCount = 1;
 	
-	// 主計算
+	/**
+	 * To set all elements of a instance of class {@code PageSupprt}
+	 * 
+	 * @param pageIndex
+	 * @param totalCount
+	 * @throws NumberFormatException - if the string does not contain aparsable integer.
+	 * @see #setCurrentPageNo(int)
+	 * @see #setTotalCount(int)
+	 */
 	public void pageCalculation(String pageIndex, int totalCount) {
 		// 取得當前頁數
 		if (pageIndex != null) {                                                     // 如果前端輸入不是數字怎麼辦????
@@ -33,12 +49,10 @@ public class PageSupport {
 
 	}
 	
-	
-	
 	public int getCurrentPageNo() {
 		return currentPageNo;
 	}
-
+	
 	public void setCurrentPageNo(int currentPageNo) {
 		if (currentPageNo > 0) {
 			this.currentPageNo = currentPageNo;
@@ -48,7 +62,15 @@ public class PageSupport {
 	public int getTotalCount() {
 		return totalCount;
 	}
-
+	
+	/**
+	 * set total counts of {@code Parts} data
+	 * if {@code toatlCount} bigger than 0,
+	 * then set {@code totalCount} and set {@code totalPageCount}
+	 * 
+	 * @param totalCount
+	 * @see #setTotalPageCountByRs()
+	 */
 	public void setTotalCount(int totalCount) {
 		if (totalCount > 0) {
 			this.totalCount = totalCount;
@@ -84,7 +106,4 @@ public class PageSupport {
 			this.totalPageCount = 0;
 		}
 	}
-	
-	
-	
 }

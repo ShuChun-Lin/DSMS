@@ -100,7 +100,7 @@
                                             </div>
                                         </a>
                                         <a id="collapseOne" class="collapse btn" data-bs-parent="#accordion"
-                                            href="${pageContext.request.contextPath}/searchParts">
+                                            href="${pageContext.request.contextPath}/searchPartsPage">
                                             <div class="card-body">
                                                 查料
                                             </div>

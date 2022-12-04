@@ -8,10 +8,26 @@ import div.shuchun.pojo.Parts;
 import div.shuchun.pojo.PartsInst;
 import div.shuchun.pojo.SearchExportObj;
 
+/**
+ * Mapper of parts.
+ * 
+ * Mapping parts to database.
+ * 
+ * @author shuchun.lin
+ * @see div.shuchun.pojo.Parts
+ * @see div.shuchun.pojo.SearchExportObj
+ */
 public interface PartsMapper {
-
-	// get parts list by partsCode (have page)
-	List<Parts> getPartsListByCode(@Param("partsCode") String partsCode, @Param("startIndex") int startIndex, @Param("pageSize") int pageSize);
+	
+	/**
+	 * Return a list of {@code Parts}
+	 * 
+	 * @param partsCode to search any {@code Parts} with matching value
+	 * @param pageIndex to be used to calculate the start index of SQL's LIMIT
+	 * @param pageSize to be the page size of SQL's LIMIT
+	 * @return a list of {@code Parts}
+	 */
+	List<Parts> getPartsListWithPageLimitByCode(@Param("partsCode") String partsCode, @Param("startIndex") int startIndex, @Param("pageSize") int pageSize);
 	
 	// get parts instantiation count by partsId
 	List<Integer> getPartsCountById(@Param("id") int id);

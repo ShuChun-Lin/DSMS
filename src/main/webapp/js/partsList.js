@@ -40,44 +40,74 @@ $(function () {
 	
 	// 實際執行 修改 OR 新增 parts
 	$("#addUpdateForm").submit(function (event) {
-
-		// 新增與修改 URL 路徑不同
-		var thisURL = "updateParts.do";
-		if ($("#pid").val() == "") { // 新增沒有 pid
-			thisURL = "addParts.do";
-		}
-
+		
+		// parts form 輸入框的資訊
 		var inputParts = {
-			id : $("#pid").val(),
-			partsCode : $("#partsCode").val(),
-			partsName : $("#partsName").val(),
-			partsDepartment : $("#partsDeptName").val(),
-			currrentDate : Date.now() // timeStamp
+				id : $("#pid").val(),
+				partsCode : $("#partsCode").val(),
+				partsName : $("#partsName").val(),
+				partsDepartment : $("#partsDeptName").val(),
+				currrentDate : Date.now(), // timeStamp
+				modifyDate : Date.now()
 		};
 		
-		$.ajax({
-			type:"POST",
-			url:"/DSMS/" + thisURL,
-			data:{partsFromView : JSON.stringify(inputParts)},
-			dataType:"json",
-			success:function(data){
-				if (data.result == "true") {
-					alert("執行成功");
-					// 成功後重新刷新 parts table
-					$("#pageIndex").val(1); // 確保執行新一次搜尋時 頁碼為1 開始
-					doSearchParts ();
-				} else if (data.result == "notexist") {
-					alert("該物料不存在");
-				} else if (data.result == "partscodebeenused") {
-					alert("該料號已存在");
-				} else if (data.result == "false") {
-					alert("執行失敗");
+		// 新增與修改 URL 路徑不同，新增沒有 pid
+		// 新增 method 為 POST
+		// 修改 method 為 PUT
+		var thisURL = "parts";
+		if ($("#pid").val() != "") { // 若為修改則 URL 有帶 ID，方法為 PUT
+			thisURL = thisURL + "/" + $("#pid").val();
+			$.ajax({
+				type:"PUT",
+				url:"/DSMS/" + thisURL,
+				contentType:"application/json",
+				data:JSON.stringify(inputParts),
+				dataType:"json",
+				success:function(data){
+					if (data.result == "true") {
+						alert("執行成功");
+						// 成功後重新刷新 parts table
+						$("#pageIndex").val(1); // 確保執行新一次搜尋時 頁碼為1 開始
+						doSearchParts ();
+					} else if (data.result == "notexist") {
+						alert("該物料不存在");
+					} else if (data.result == "partscodebeenused") {
+						alert("該料號已存在");
+					} else if (data.result == "false") {
+						alert("執行失敗");
+					}
+				},
+				error:function(data){
+					alert("對不起，執行異常");
 				}
-			},
-			error:function(data){
-				alert("對不起，執行異常");
-			}
-		});
+			});
+		} else {
+			$.ajax({
+				type:"POST",
+				url:"/DSMS/" + thisURL,
+				data:{
+					  partsFromView : JSON.stringify(inputParts)
+				},
+				dataType:"json",
+				success:function(data){
+					if (data.result == "true") {
+						alert("執行成功");
+						// 成功後重新刷新 parts table
+						$("#pageIndex").val(1); // 確保執行新一次搜尋時 頁碼為1 開始
+						doSearchParts ();
+					} else if (data.result == "notexist") {
+						alert("該物料不存在");
+					} else if (data.result == "partscodebeenused") {
+						alert("該料號已存在");
+					} else if (data.result == "false") {
+						alert("執行失敗");
+					}
+				},
+				error:function(data){
+					alert("對不起，執行異常");
+				}
+			});
+		}
 		return false;
 	});
 });
@@ -146,15 +176,24 @@ function changePage(form,pageNumber){
 
 // 執行 ajax 查詢 part list 並局部刷新
 function doSearchParts () {
-	
+	let deptId = $("#queryPartsDept").val();
+	let partsCode = $("#queryPartsCode").val();
+	let pageIndex = $("#pageIndex").val();
+	let URLString = "/DSMS/parts/" + pageIndex + "/" + deptId;
+//	if (deptId != "" && deptId != null && deptId != 0) {
+//		URLString = URLString + "/" + deptId;
+//	}
+	if (partsCode != "" && partsCode != null) {
+		URLString = URLString + "/" + partsCode;
+	}
 	$.ajax({
-		type:"POST",
-		url:"/DSMS/searchParts.do",
-		data:{
-			partsCode:$("#queryPartsCode").val(),
-			deptId:$("#queryPartsDept").val(),
-			pageIndex:$("#pageIndex").val()
-		},
+		type:"GET",
+		url:URLString,
+//		data:{
+//			partsCode:$("#queryPartsCode").val(),
+//			deptId:$("#queryPartsDept").val(),
+//			pageIndex:$("#pageIndex").val()
+//		},
 		dataType:"json",
 		success:function(data){
 			

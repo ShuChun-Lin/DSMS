@@ -38,7 +38,7 @@ public class MyTest {
 		ApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 		PartsService partsService = (PartsService) context.getBean("partsServiceImpl");
 		
-		System.out.println(partsService.getPartsListByCode("S000GEAR002", 2, 1));
+		System.out.println(partsService.getPartsListWithPageLimitByCode("S000GEAR002", 2, 1));
 		
 		((ConfigurableApplicationContext)context).close();  // 用來關閉 context
 	}

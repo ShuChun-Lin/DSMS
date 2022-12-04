@@ -9,7 +9,13 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONArray;
@@ -26,6 +32,15 @@ import div.shuchun.service.role.RoleService;
 import div.shuchun.utils.Constants;
 import div.shuchun.utils.PageSupport;
 
+/**
+ * Controller of parts.
+ * 
+ * Deal with any request about parts.
+ * 
+ * @author shuchun.lin
+ * @see div.shuchun.service.parts.PartsService
+ * @see div.shuchun.service.dept.DepartmentService
+ */
 @Controller
 public class PartsController {
 
@@ -35,11 +50,25 @@ public class PartsController {
 	@Autowired
 	private DepartmentService departmentService;
 	
-	@RequestMapping("/searchParts")
+	/**
+	 * Forward to the page which is used to search specified parts
+	 * 
+	 * @return name of the searchParts.jsp
+	 */
+	@RequestMapping(value = "/searchPartsPage", method = RequestMethod.GET)
 	public String toSearchPartsPage() {
 		return "searchParts";
 	}
 	
+	/**
+	 * not RESTful API, use partsCode which from {@code HttpServletRequest} to
+	 * search data {@link Parts} (includes each {@link Parts}'s quantity) from all departments in database.
+	 * Forward to same page with new attributes of model.
+	 *  
+	 * @param model : to control elements of jsp, means control some attributes of view
+	 * @param request : to get params from client like : partsCode, 
+	 * @return name of the searchParts.jsp with model that have some attributes
+	 */
 	@RequestMapping("/partSearch")
 	public String getPartsListByCode(Model model, HttpServletRequest request) {
 		
@@ -54,7 +83,7 @@ public class PartsController {
 		// get current page no. from front-end
 		String pageIndex = request.getParameter("pageIndex");
 		
-		// get parts data count from database
+		// get parts data counts from database
 		int totalCount = partsService.getPartsDataCount(queryPartsCode, null);
 		
 		// get entire page info
@@ -66,9 +95,9 @@ public class PartsController {
 		model.addAttribute("totalPageCount", pageInfo.getTotalPageCount());
 		
 		// search partsCode from database and put in model
-		List<Parts> partsList = partsService.getPartsListByCode(queryPartsCode, pageInfo.getCurrentPageNo(), pageInfo.getPageSize());
+		List<Parts> partsList = partsService.getPartsListWithPageLimitByCode(queryPartsCode, pageInfo.getCurrentPageNo(), pageInfo.getPageSize());
 		model.addAttribute("partsList", partsList);
-		model.addAttribute("partsCode", queryPartsCode);  // 搜尋的值要留存
+		model.addAttribute("partsCode", queryPartsCode);  // 搜尋的值要留存在 input text 中
 		
 		return "searchParts";
 	}
@@ -174,17 +203,33 @@ public class PartsController {
 		return "partsList";
 	}
 	
+//*************************************************************************************************	
+
+	/**
+	 * RESTFul API
+	 * To get list of {@link Parts} with one page from database
+	 * and page info.
+	 * 
+	 * @param partsCode to be a condition for search
+	 * @param deptId to be a condition for search
+	 * @param pageIndex to be used to calculate the start index of SQL's LIMIT
+	 * @return a JSON String includes a list of {@code Parts}, 
+	 *         page info: currentPageNo、totalPageCount、totalCount
+	 *         and a list of {@code Parts}
+	 */
 	@ResponseBody
-	@RequestMapping(value="/searchParts.do", produces="application/json")
-	public String getPartsListByConditions(HttpServletRequest request, String partsCode, String deptId, String pageIndex) {
+	@GetMapping(value="/parts/{pageIndex}/{deptId}/{partsCode}", produces="application/json")
+	public String getPartsListByConditions(@PathVariable("partsCode") String partsCode, 
+											@PathVariable("deptId") String deptId, 
+											@PathVariable("pageIndex") String pageIndex) {
 		
 		List<String> result = new ArrayList<>();
 		
-		// get parts data count from database
+		// get total parts data counts from database
 		int totalCount = partsService.getPartsDataCount(partsCode, Integer.parseInt(deptId));
 		result.add("{\"totalCount\":\"" + totalCount + "\"}");		
 		
-		// for page
+		// get page info
 		PageSupport pageInfo = partsService.getPageSupportImpl(pageIndex, totalCount);
 		result.add("{\"currentPageNo\":\"" + pageInfo.getCurrentPageNo() + "\"}");
 		result.add("{\"totalPageCount\":\"" + pageInfo.getTotalPageCount() + "\"}");
@@ -200,6 +245,25 @@ public class PartsController {
 		return result.toString();
 	}
 	
+	/**
+	 * To get list of {@link Parts} with one page from database
+	 * and page info.
+	 * (without a condition {@code partsCode})
+	 * 
+	 * @param deptId to be a condition for search
+	 * @param pageIndex to be used to calculate the start index of SQL's LIMIT
+	 * @return a JSON String includes a list of {@code Parts}, 
+	 *         page info: currentPageNo、totalPageCount、totalCount
+	 *         and a list of {@code Parts}
+	 */
+	@ResponseBody
+	@GetMapping(value="/parts/{pageIndex}/{deptId}", produces="application/json")
+	public String getPartsListByConditions(@PathVariable("deptId") String deptId, 
+											@PathVariable("pageIndex") String pageIndex) {
+		
+		return getPartsListByConditions(null, deptId, pageIndex);
+	}
+//*************************************************************************************************	
 	@ResponseBody
 	@RequestMapping(value="/deleteParts.do", produces="application/json")
 	public String deletePartsById(HttpServletRequest request, String pid) {
@@ -230,14 +294,30 @@ public class PartsController {
 		return updateParts.toJsonString();
 	}
 	
+	/* 方法一 : 用POST + _method:PUT + web.xml用<filter>HiddenHttpMethodFilter
+	 *  前端: 
+	 *  $.ajax({
+				type:"POST",
+				url:"/DSMS/" + thisURL,
+				data:{
+					_method : "PUT" ,
+					partsFromView : JSON.stringify(inputParts)
+				},
+				
+	*  後端:
 	@ResponseBody
-	@RequestMapping(value="/updateParts.do", produces="application/json")
+	@PutMapping(value="/parts/{id}", produces="application/json")
 	public String updateParts(HttpServletRequest request, String partsFromView) {
 		User user = (User) request.getSession().getAttribute(Constants.USER_SESSION);
 		
+		System.out.println(partsFromView);
+		
 		// transfer json to object
 		JSONObject jsonObj = JSONObject.parseObject(partsFromView);
-
+		
+		if (jsonObj == null) System.out.println("jsonObj is null");
+		else System.out.println("jsonObject is not null");
+		
 		Parts updateParts = new Parts(jsonObj.getInteger("id"),
 								jsonObj.getString("partsCode"),
 								jsonObj.getString("partsName"),
@@ -258,9 +338,52 @@ public class PartsController {
 		
 		return "{\"result\":\"false\"}";
 	}
+	* 以上為方法一
+	*/
+	
+	/* 方法二 : 用PUT + 前端 contentType:"application/json" 和 data 要用 json 字串
+	 *  前端 :
+	 *  $.ajax({
+				type:"PUT",
+				url:"/DSMS/" + thisURL,
+				contentType:"application/json",
+				data:JSON.stringify(inputParts),
+	 * 
+	 * 後端參數用 @RequestBody Parts 去接 (交給 jackson 去做)
+	 * 所以要配置 jackson.core、.databind、.annotations 包
+	 */
+	@ResponseBody
+	@PutMapping(value="/parts/{id}", produces="application/json")
+	public String updateParts(HttpServletRequest request, @RequestBody Parts partsFromView) {
+		User user = (User) request.getSession().getAttribute(Constants.USER_SESSION);
+		
+		System.out.println(partsFromView);
+		
+//		Parts updateParts = new Parts(partsFromView.getId(),
+//								partsFromView.getPartsCode(),
+//								partsFromView.getPartsName(),
+//								partsFromView.getPartsDepartment(),
+//								null, null,
+//								user.getId(),
+//								partsFromView.getModifyDate(),
+//								null, null
+//								);
+		partsFromView.setModifyBy(user.getId());  // 用這個比新建updateParts更快
+		
+		// this parts id exist
+		Parts makeSureParts = partsService.getPartsById(partsFromView.getId());
+		if (makeSureParts == null) {
+			return "{\"result\":\"notexist\"}";
+		}
+		if (partsService.updateParts(partsFromView)) {
+			return "{\"result\":\"true\"}";
+		}
+		
+		return "{\"result\":\"false\"}";
+	}
 	
 	@ResponseBody
-	@RequestMapping(value="/addParts.do", produces="application/json")
+	@PostMapping(value="/parts", produces="application/json")
 	public String addParts(HttpServletRequest request, String partsFromView) {
 		User user = (User) request.getSession().getAttribute(Constants.USER_SESSION);
 		

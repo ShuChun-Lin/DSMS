@@ -16,11 +16,19 @@ import div.shuchun.pojo.SearchExportObj;
 import div.shuchun.utils.JsonSupport;
 import div.shuchun.utils.PageSupport;
 
+/**
+ * Service implementation of the PartsService interface.
+ * 
+ * @author shuchun.lin
+ * @see PartsService
+ * @see div.shuchun.dao.position.PositionMapper
+ * @see div.shuchun.dao.parts.PartsMapper
+ */
 public class PartsServiceImpl implements PartsService {
 
 	private PositionMapper positionMapper;
 	private PartsMapper partsMapper;
-
+	
 	public void setPartsMapper(PartsMapper partsMapper) {
 		this.partsMapper = partsMapper;
 	}
@@ -30,11 +38,11 @@ public class PartsServiceImpl implements PartsService {
 	}
 
 	@Override
-	public List<Parts> getPartsListByCode(String partsCode, int pageIndex, int pageSize) {
+	public List<Parts> getPartsListWithPageLimitByCode(String partsCode, int pageIndex, int pageSize) {
 		
 		// calculate item start index by pageIndex and pageSize
 		int startIndex = pageSize * (pageIndex - 1);
-		List<Parts> partsList = partsMapper.getPartsListByCode(partsCode, startIndex, pageSize);
+		List<Parts> partsList = partsMapper.getPartsListWithPageLimitByCode(partsCode, startIndex, pageSize);
 		
 		// get every counts of part
 		for(Parts part : partsList) {
